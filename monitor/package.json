@@ -1,0 +1,16 @@
+{
+  "name": "safetern-monitor",
+  "private": true,
+  "version": "0.6.1",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "once": "node src/index.js --once",
+    "guardian:setup": "node src/telegram-setup.js",
+    "guardian:test": "node src/telegram-test.js"
+  },
+  "dependencies": {
+    "genlayer-js": "^1.1.8",
+    "ethers": "^6.15.0"
+  }
+}
