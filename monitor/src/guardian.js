@@ -38,7 +38,7 @@ export class TelegramGuardian {
   constructor({ root, token, chatId, contract, appUrl, botUsername }) {
     this.root = root;
     this.token = String(token || "").trim();
-    this.chatId = String(chatId || "").trim(); // optional legacy/admin destination
+    this.chatId = String(chatId || "").trim();
     this.contract = contract;
     this.appUrl = String(appUrl || "").trim().replace(/\/$/, "");
     this.botUsername = String(botUsername || "SafeternGuardianBot").replace(/^@/, "");
@@ -46,6 +46,7 @@ export class TelegramGuardian {
     this.connectionsPath = path.join(root, "data", "guardian-connections.json");
     this.apiBase = this.token ? `https://api.telegram.org/bot${this.token}` : "";
     this.commandTimer = null;
+    this.commandsRegistered = false;
   }
 
   get configured() {
@@ -304,6 +305,125 @@ export class TelegramGuardian {
 
   async send(text, extra = {}) {
     return this.chatId ? this.sendTo(this.chatId, text, extra) : false;
+  }
+
+  async registerCommands() {
+    if (!this.configured || this.commandsRegistered) return;
+
+    try {
+      await this.call("setMyCommands", {
+        commands: [
+          {
+            command: "start",
+            description: "Open Guardian home",
+          },
+          {
+            command: "status",
+            description: "View your Safetern records",
+          },
+          {
+            command: "record",
+            description: "View a specific record by ID",
+          },
+          {
+            command: "help",
+            description: "Guardian help and commands",
+          },
+        ],
+      });
+
+      this.commandsRegistered = true;
+      console.log("Safetern Guardian Telegram commands registered.");
+    } catch (error) {
+      console.error(
+        "Telegram Guardian command registration failed:",
+        error?.message || error
+      );
+    }
+  }
+
+  mainKeyboard() {
+    const firstRow = [
+      {
+        text: "VIEW STATUS",
+        callback_data: "guardian_status",
+      },
+    ];
+
+    if (this.appUrl) {
+      firstRow.push({
+        text: "OPEN SAFETERN",
+        url: this.appUrl,
+      });
+    }
+
+    return {
+      inline_keyboard: [
+        firstRow,
+        [
+          {
+            text: "HELP",
+            callback_data: "guardian_help",
+          },
+        ],
+      ],
+    };
+  }
+
+  homeMessage(wallet = "") {
+    const lines = [
+      "Safetern Guardian",
+      "",
+      "Autonomous continuity monitoring for your Safetern records.",
+    ];
+
+    if (wallet) {
+      lines.push("", `Connected wallet: ${shortWallet(wallet)}`);
+    }
+
+    lines.push(
+      "",
+      "Guardian monitors meaningful changes across Protect, Watch and Recover and alerts you when attention is required.",
+      "",
+      "Guardian can monitor and notify, but it cannot sign owner-only or beneficiary-only actions."
+    );
+
+    return lines.join("\n");
+  }
+
+  helpMessage() {
+    return [
+      "Safetern Guardian · Help",
+      "",
+      "/status",
+      "View Protect, Watch and Recover records connected to your wallet.",
+      "",
+      "/record <id>",
+      "View detailed information for one Safetern record.",
+      "Example: /record 8",
+      "",
+      "/start",
+      "Open the Guardian home screen.",
+      "",
+      "/help",
+      "Show this help message.",
+      "",
+      "Guardian automatically alerts you about important assessments, challenges, Watch signals and recovery events.",
+      "",
+      "Security: Guardian cannot sign owner-only or beneficiary-only actions on your behalf.",
+    ].join("\n");
+  }
+
+  async sendHome(chatId, wallet = "") {
+    return this.sendTo(chatId, this.homeMessage(wallet), {
+      reply_markup: this.mainKeyboard(),
+    });
+  }
+
+  async sendHelp(chatId) {
+    return this.sendTo(chatId, this.helpMessage(), {
+      reply_markup: this.mainKeyboard(),
+    });
   }
 
   audienceForRecord(record = {}) {
@@ -751,13 +871,35 @@ export class TelegramGuardian {
       connections.chats?.[chatId]?.wallet ||
       (chatId === this.chatId ? "" : null);
 
-    if (wallet === null) return;
-
     try {
       await this.call("answerCallbackQuery", {
         callback_query_id: query.id,
       });
     } catch {}
+
+    if (wallet === null) {
+      await this.sendTo(
+        chatId,
+        "Safetern Guardian is not connected to a wallet yet.\n\nOpen Safetern and connect Telegram Guardian first."
+      );
+      return;
+    }
+
+    if (data === "guardian_status") {
+      await this.sendTo(
+        chatId,
+        this.formatStatus(getState(), wallet || ""),
+        {
+          reply_markup: this.mainKeyboard(),
+        }
+      );
+      return;
+    }
+
+    if (data === "guardian_help") {
+      await this.sendHelp(chatId);
+      return;
+    }
 
     const presence = data.match(/^presence_help:(\d+)$/);
 
@@ -782,7 +924,10 @@ export class TelegramGuardian {
     if (status) {
       await this.sendTo(
         chatId,
-        this.formatRecord(getState(), status[1], wallet || "")
+        this.formatRecord(getState(), status[1], wallet || ""),
+        {
+          reply_markup: this.mainKeyboard(),
+        }
       );
     }
   }
@@ -834,14 +979,19 @@ export class TelegramGuardian {
                 "",
                 `Wallet: ${shortWallet(connected.wallet)}`,
                 "",
-                "Guardian will send meaningful alerts for Safetern records involving this wallet.",
-                "Commands: /status · /record <id>",
-              ].join("\n")
+                "Your Guardian is now active.",
+                "You will receive meaningful Protect, Watch and Recover alerts for Safetern records involving this wallet.",
+                "",
+                "Use the buttons below or type / to view available commands.",
+              ].join("\n"),
+              {
+                reply_markup: this.mainKeyboard(),
+              }
             );
           } else {
             await this.sendTo(
               chatId,
-              "This Safetern Guardian pairing link is invalid or expired. Return to safetern.xyz and create a new connection request."
+              "This Safetern Guardian pairing link is invalid or expired.\n\nReturn to Safetern and create a new connection request."
             );
           }
 
@@ -856,34 +1006,116 @@ export class TelegramGuardian {
 
         if (wallet === null) {
           if (/^\/start\b/i.test(text)) {
+            const lines = [
+              "Safetern Guardian",
+              "",
+              "Your autonomous continuity companion.",
+              "",
+              "This Telegram account is not connected to a Safetern wallet yet.",
+              "",
+              "Open Safetern, connect your wallet, then choose Telegram Guardian to create a secure one-time pairing link.",
+            ];
+
             await this.sendTo(
               chatId,
-              "Connect Telegram Guardian from safetern.xyz first. The site will give you a secure one-time pairing link."
+              lines.join("\n"),
+              this.appUrl
+                ? {
+                    reply_markup: {
+                      inline_keyboard: [
+                        [
+                          {
+                            text: "OPEN SAFETERN",
+                            url: this.appUrl,
+                          },
+                        ],
+                      ],
+                    },
+                  }
+                : {}
+            );
+          } else if (/^\/help\b/i.test(text)) {
+            await this.sendTo(
+              chatId,
+              "Connect Telegram Guardian from Safetern first. Once connected, you can use /status, /record <id>, /start and /help."
             );
           }
 
           continue;
         }
 
-        if (/^\/start\b/i.test(text)) {
-          await this.sendTo(
-            chatId,
-            "Safetern Guardian is connected.\n\nI send meaningful Watch, Protect and Recover alerts for your connected wallet.\n\nCommands: /status · /record <id>"
-          );
-        } else if (/^\/status\b/i.test(text)) {
-          await this.sendTo(
-            chatId,
-            this.formatStatus(getState(), wallet || "")
-          );
-        } else {
-          const match = text.match(/^\/(?:record|watch)\s+(\d+)/i);
+        if (/^\/start(?:@\w+)?\s*$/i.test(text)) {
+          await this.sendHome(chatId, wallet || "");
+          continue;
+        }
 
-          if (match) {
-            await this.sendTo(
-              chatId,
-              this.formatRecord(getState(), match[1], wallet || "")
-            );
-          }
+        if (/^\/status(?:@\w+)?\s*$/i.test(text)) {
+          await this.sendTo(
+            chatId,
+            this.formatStatus(getState(), wallet || ""),
+            {
+              reply_markup: this.mainKeyboard(),
+            }
+          );
+          continue;
+        }
+
+        if (/^\/help(?:@\w+)?\s*$/i.test(text)) {
+          await this.sendHelp(chatId);
+          continue;
+        }
+
+        if (/^\/record(?:@\w+)?\s*$/i.test(text)) {
+          await this.sendTo(
+            chatId,
+            [
+              "Safetern Guardian · Record Lookup",
+              "",
+              "Enter the record ID after the command.",
+              "",
+              "Example:",
+              "/record 8",
+            ].join("\n"),
+            {
+              reply_markup: this.mainKeyboard(),
+            }
+          );
+          continue;
+        }
+
+        const recordMatch = text.match(
+          /^\/(?:record|watch)(?:@\w+)?\s+(\d+)\s*$/i
+        );
+
+        if (recordMatch) {
+          await this.sendTo(
+            chatId,
+            this.formatRecord(
+              getState(),
+              recordMatch[1],
+              wallet || ""
+            ),
+            {
+              reply_markup: this.mainKeyboard(),
+            }
+          );
+          continue;
+        }
+
+        if (text.startsWith("/")) {
+          await this.sendTo(
+            chatId,
+            [
+              "Safetern Guardian",
+              "",
+              "I don't recognize that command.",
+              "",
+              "Type / to view available Guardian commands, or use the buttons below.",
+            ].join("\n"),
+            {
+              reply_markup: this.mainKeyboard(),
+            }
+          );
         }
       }
     } catch (error) {
@@ -899,6 +1131,7 @@ export class TelegramGuardian {
   startCommandLoop(getState) {
     if (!this.configured || this.commandTimer) return;
 
+    this.registerCommands();
     this.pollCommands(getState);
 
     this.commandTimer = setInterval(

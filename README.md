@@ -80,7 +80,7 @@ Traditional inactivity systems rely primarily on timers. Safetern uses \*\*GenLa
 
 
 
-Build 06.3 does not require a contract redeployment.
+Build 06.4 does not require a contract redeployment.
 
 
 
@@ -422,6 +422,10 @@ Guardian can:
 
 \- provide individual `/record <id>` information
 
+\- provide a native Telegram command menu
+
+\- provide interactive Guardian navigation through Telegram
+
 
 
 Guardian \*\*cannot\*\*:
@@ -482,13 +486,43 @@ Once connected, Guardian sends meaningful alerts for Safetern records involving 
 
 
 
-Supported commands include:
+Typing `/` in Telegram exposes the Guardian command menu:
 
 
+
+&#x20;   /start
 
 &#x20;   /status
 
-&#x20;   /record <id>
+&#x20;   /record
+
+&#x20;   /help
+
+
+
+The commands provide:
+
+
+
+\- `/start` — Open the Guardian home
+
+\- `/status` — View Safetern records associated with the connected wallet
+
+\- `/record <id>` — View a specific Safetern record
+
+\- `/help` — View Guardian commands, behavior, and security boundaries
+
+
+
+The Guardian home also provides interactive buttons:
+
+
+
+\- `VIEW STATUS`
+
+\- `OPEN SAFETERN`
+
+\- `HELP`
 
 
 
@@ -517,6 +551,10 @@ Guardian also provides direct owner-presence links during an active challenge.
 
 
 The owner must still connect and authorize the owner-only action with the correct wallet.
+
+
+
+Telegram Guardian does not replace wallet authorization. It provides monitoring, automation, notifications, and navigation while owner-only and beneficiary-only actions remain protected.
 
 
 
@@ -706,7 +744,15 @@ The production deployment has been verified with:
 
 \- secure wallet pairing operational
 
-\- wallet-scoped commands operational
+\- native Telegram command menu operational
+
+\- interactive Guardian home operational
+
+\- wallet-scoped `/status` operational
+
+\- `/record <id>` lookup operational
+
+\- Telegram help and unknown-command handling operational
 
 \- GenLayer assessment automation operational
 
@@ -1164,7 +1210,7 @@ Provides information for GenLayer assessment but does not directly authorize rec
 
 
 
-At the time of Build 06.3, some visits to:
+At the time of Build 06.4, some visits to:
 
 
 
@@ -1290,7 +1336,7 @@ Additional information is documented in:
 
 &#x20;   │   └── wrangler.jsonc
 
-&#x20;   ├── BUILD-06.3.md
+&#x20;   ├── BUILD-06.4.md
 
 &#x20;   ├── .gitignore
 
@@ -1468,11 +1514,11 @@ This prevents production credentials, private keys, Telegram tokens, live pairin
 
 
 
-\# Build 06.3
+\# Build 06.4
 
 
 
-Build 06.3 is the current hackathon production baseline.
+Build 06.4 is the current hackathon production baseline.
 
 
 
@@ -1508,7 +1554,19 @@ It includes:
 
 \- multi-user Guardian connections
 
+\- native Telegram `/` command menu
+
+\- `/start`, `/status`, `/record`, and `/help`
+
+\- professional Guardian home interface
+
+\- `VIEW STATUS`, `OPEN SAFETERN`, and `HELP` navigation
+
 \- wallet-scoped Telegram commands
+
+\- clear `/record` usage guidance
+
+\- unknown-command handling
 
 \- owner challenge notifications
 
@@ -1532,7 +1590,11 @@ It includes:
 
 
 
-No Intelligent Contract redeployment was required for Build 06.3.
+No Intelligent Contract redeployment was required for Build 06.4.
+
+
+
+The Build 06.4 Telegram Guardian experience has been verified live against the production Oracle deployment.
 
 
 
@@ -1540,7 +1602,7 @@ See:
 
 
 
-`BUILD-06.3.md`
+`BUILD-06.4.md`
 
 
 
@@ -1592,7 +1654,7 @@ The protocol uses intelligent consensus to determine \*\*whether an action is ju
 
 
 
-\*\*Build:\*\* 06.3
+\*\*Build:\*\* 06.4
 
 
 
@@ -1649,6 +1711,14 @@ The protocol uses intelligent consensus to determine \*\*whether an action is ju
 
 
 \*\*Telegram wallet pairing:\*\* Operational
+
+
+
+\*\*Telegram command menu:\*\* Operational
+
+
+
+\*\*Telegram interactive navigation:\*\* Operational
 
 
 
