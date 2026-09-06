@@ -1,4 +1,4 @@
-\# Safetern Guardian
+﻿\# Safetern Guardian
 
 
 
@@ -110,7 +110,7 @@ Disconnecting Guardian remains a wallet-authorized action through the Safetern w
 
 
 
-Build 06.4 registers native Telegram bot commands.
+Build 06.4.1 registers native Telegram bot commands.
 
 
 
@@ -118,19 +118,19 @@ Typing `/` in the Guardian chat displays:
 
 
 
-`/start` — Open Guardian home
+`/start` â€” Open Guardian home
 
 
 
-`/status` — View your Safetern records
+`/status` â€” View your Safetern records
 
 
 
-`/record` — View a specific record by ID
+`/record` â€” View a specific record by ID
 
 
 
-`/help` — Guardian help and commands
+`/help` â€” Guardian help and commands
 
 
 
@@ -230,15 +230,15 @@ Example:
 
 
 
-&#x20;   Safetern Guardian · Status
+&#x20;   Safetern Guardian Â· Status
 
 
 
 &#x20;   #8 Safetern Guardian Production Test
 
-&#x20;   PROTECT · HEALTHY
+&#x20;   PROTECT Â· HEALTHY
 
-&#x20;   Last assessment: ABANDONED · 96%
+&#x20;   Last assessment: ABANDONED Â· 96%
 
 
 
@@ -252,7 +252,7 @@ In the example above:
 
 \- current covenant state: `HEALTHY`
 
-\- last GenLayer assessment: `ABANDONED · 96%`
+\- last GenLayer assessment: `ABANDONED Â· 96%`
 
 
 
@@ -692,7 +692,7 @@ The production Telegram Guardian runs through:
 
 
 
-`Telegram ↔ Safetern Guardian ↔ GenLayer / Safetern`
+`Telegram â†” Safetern Guardian â†” GenLayer / Safetern`
 
 
 
@@ -724,11 +724,11 @@ The Guardian service is configured to restart automatically and start at boot.
 
 
 
-\# Build 06.4 Production Verification
+\# Build 06.4.1 Production Verification
 
 
 
-The Build 06.4 Telegram experience was tested directly against the production Guardian.
+The Build 06.4.1 Telegram experience was tested directly against the production Guardian.
 
 
 
@@ -762,7 +762,7 @@ The production `safetern-guardian` systemd service remained active after deploym
 
 
 
-No GenLayer Intelligent Contract redeployment was required for Build 06.4.
+No GenLayer Intelligent Contract redeployment was required for Build 06.4.1.
 
 
 
@@ -774,7 +774,7 @@ No GenLayer Intelligent Contract redeployment was required for Build 06.4.
 
 
 
-\*\*Build:\*\* 06.4
+\*\*Build:\*\* 06.4.1
 
 
 
@@ -846,5 +846,6 @@ No GenLayer Intelligent Contract redeployment was required for Build 06.4.
 
 
 
-\*\*Safetern Guardian — Built to continue.\*\*
+\*\*Safetern Guardian â€” Built to continue.\*\*
+
 

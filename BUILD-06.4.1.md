@@ -1,4 +1,4 @@
-\# Safetern Build 06.4
+﻿\# Safetern Build 06.4.1
 
 
 
@@ -6,7 +6,7 @@
 
 
 
-Build 06.4 improves the production Safetern Guardian Telegram experience without changing the GenLayer intelligent contract or Safetern's core protocol logic.
+Build 06.4.1 improves the production Safetern Guardian Telegram experience without changing the GenLayer intelligent contract or Safetern's core protocol logic.
 
 
 
@@ -18,13 +18,13 @@ Build 06.4 improves the production Safetern Guardian Telegram experience without
 
 \- Typing `/` in Telegram now exposes:
 
-&#x20; - `/start` — Open Guardian home
+&#x20; - `/start` â€” Open Guardian home
 
-&#x20; - `/status` — View your Safetern records
+&#x20; - `/status` â€” View your Safetern records
 
-&#x20; - `/record` — View a specific record by ID
+&#x20; - `/record` â€” View a specific record by ID
 
-&#x20; - `/help` — Guardian help and commands
+&#x20; - `/help` â€” Guardian help and commands
 
 \- Added a professional Guardian home screen.
 
@@ -102,7 +102,7 @@ Disconnecting Telegram Guardian continues to require the wallet-authorized Safet
 
 
 
-Build 06.4 was deployed to the existing 24/7 Safetern Guardian running on Oracle Cloud and exposed through the production Cloudflare Tunnel.
+Build 06.4.1 was deployed to the existing 24/7 Safetern Guardian running on Oracle Cloud and exposed through the production Cloudflare Tunnel.
 
 
 
@@ -140,11 +140,11 @@ Example:
 
 
 
-`PROTECT · HEALTHY`
+`PROTECT Â· HEALTHY`
 
 
 
-`Last assessment: ABANDONED · 96%`
+`Last assessment: ABANDONED Â· 96%`
 
 
 
@@ -184,7 +184,7 @@ The Guardian and Cloudflare Tunnel run independently of the development computer
 
 
 
-No intelligent-contract redeployment was required for Build 06.4.
+No intelligent-contract redeployment was required for Build 06.4.1.
 
 
 
@@ -196,7 +196,7 @@ Current Safetern contract:
 
 
 
-Build 06.4 is a production Guardian UX and interaction-layer improvement on top of the existing Safetern protocol.
+Build 06.4.1 is a production Guardian UX and interaction-layer improvement on top of the existing Safetern protocol.
 
 
 
@@ -210,3 +210,20 @@ Build 06.4 is a production Guardian UX and interaction-layer improvement on top 
 
 Safetern Guardian now provides a clearer, more professional Telegram interface while preserving the protocol's owner/beneficiary authorization boundaries and GenLayer-controlled continuity decisions.
 
+
+
+## Build 06.4.1 Hotfix
+
+Build 06.4.1 fixes a production Telegram Guardian notification race in the shared guardian state file.
+
+The issue allowed an overlapping Telegram command poll to overwrite newly persisted 
+otified_event_ids, causing the same assessment-delay event to be replayed repeatedly.
+
+The fix introduces merge-safe Guardian state persistence that:
+- preserves existing notification event IDs,
+- uses the highest Telegram update offset,
+- prevents concurrent Guardian loops from erasing each other's state.
+
+Production verification confirmed the repeated assessment-delay spam stopped across multiple lifecycle cycles.
+
+No Intelligent Contract redeploy was required.

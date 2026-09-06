@@ -1,6 +1,6 @@
-# Safetern — Current Project Status
+﻿# Safetern â€” Current Project Status
 
-**Current Build:** 06.4  
+**Current Build:** 06.4.1  
 **Network:** GenLayer Studionet  
 **Status:** Production hackathon build operational  
 **Track:** Autonomous Protocols
@@ -24,7 +24,7 @@
 
 `0x40a1530e5e5a45f41efe64151f3b1ad2be9cce8d7a6a25bcf60c4649e1f60cdf`
 
-Build 06.4 does not require an Intelligent Contract redeployment.
+Build 06.4.1 does not require an Intelligent Contract redeployment.
 
 ---
 
@@ -38,7 +38,7 @@ Protect creates continuity covenants whose configured public evidence can be eva
 
 The lifecycle supports:
 
-`HEALTHY → assessment → CHALLENGE → RECOVERED`
+`HEALTHY â†’ assessment â†’ CHALLENGE â†’ RECOVERED`
 
 During CHALLENGE, the owner can confirm presence and return the covenant to HEALTHY.
 
@@ -115,13 +115,13 @@ Guardian connections are wallet-scoped.
 
 Typing `/` displays the available Guardian commands:
 
-`/start` — Open Guardian home
+`/start` â€” Open Guardian home
 
-`/status` — View Safetern records associated with the connected wallet
+`/status` â€” View Safetern records associated with the connected wallet
 
-`/record <id>` — View a specific Safetern record
+`/record <id>` â€” View a specific Safetern record
 
-`/help` — View Guardian help, commands, and security boundaries
+`/help` â€” View Guardian help, commands, and security boundaries
 
 ### Guardian Home
 
@@ -160,8 +160,8 @@ Current status reporting deliberately separates contract state from the most rec
 Example:
 
     #8 Safetern Guardian Production Test
-    PROTECT · HEALTHY
-    Last assessment: ABANDONED · 96%
+    PROTECT Â· HEALTHY
+    Last assessment: ABANDONED Â· 96%
 
 This avoids presenting an old assessment as though it were the current lifecycle state.
 
@@ -210,13 +210,13 @@ The production Guardian and Cloudflare Tunnel have both been verified as active 
 
 Successfully demonstrated:
 
-`Monitoring → GenLayer assessment → ABANDONED → CHALLENGE → expiry → permissionless finalization → RECOVERED`
+`Monitoring â†’ GenLayer assessment â†’ ABANDONED â†’ CHALLENGE â†’ expiry â†’ permissionless finalization â†’ RECOVERED`
 
 ### Owner Presence Veto
 
 Successfully demonstrated in production:
 
-`Monitoring → GenLayer assessment → CHALLENGE → Telegram alert → Safetern deep link → owner wallet confirmation → HEALTHY`
+`Monitoring â†’ GenLayer assessment â†’ CHALLENGE â†’ Telegram alert â†’ Safetern deep link â†’ owner wallet confirmation â†’ HEALTHY`
 
 This proves Guardian cannot impersonate the owner.
 
@@ -224,7 +224,7 @@ This proves Guardian cannot impersonate the owner.
 
 Successfully demonstrated:
 
-`Encrypted payload → continuity assessment → CHALLENGE → permissionless finalization → RECOVERED → beneficiary authorization → local decryption`
+`Encrypted payload â†’ continuity assessment â†’ CHALLENGE â†’ permissionless finalization â†’ RECOVERED â†’ beneficiary authorization â†’ local decryption`
 
 The correct test recovery information was successfully decrypted for the nominated beneficiary.
 
@@ -250,7 +250,7 @@ The user:
 
 ### Telegram Guardian Professional UX
 
-Build 06.4 was verified against the live production Guardian.
+Build 06.4.1 was verified against the live production Guardian.
 
 Successfully demonstrated:
 
@@ -263,7 +263,7 @@ Successfully demonstrated:
 7. unknown commands return clear guidance
 8. interactive navigation remains available after responses
 
-This verifies the Build 06.4 Telegram interface against the 24/7 Oracle-hosted Guardian.
+This verifies the Build 06.4.1 Telegram interface against the 24/7 Oracle-hosted Guardian.
 
 ---
 
@@ -301,9 +301,9 @@ Encrypted before storage and decrypted locally after authorization.
 
 Production-oriented options currently include:
 
-- Standard — 24 hours
-- Extended — 3 days
-- Maximum Safety — 7 days
+- Standard â€” 24 hours
+- Extended â€” 3 days
+- Maximum Safety â€” 7 days
 
 Accelerated 60-second and 5-minute options exist for testing/demo purposes and are clearly marked as TEST ONLY in the application.
 
@@ -319,9 +319,9 @@ This allows pending assessments and active challenges to be detected quickly wit
 
 ---
 
-## Known Issue — MetaMask Domain Warning
+## Known Issue â€” MetaMask Domain Warning
 
-At the time of Build 06.4, MetaMask may display a malicious-site/security warning for:
+At the time of Build 06.4.1, MetaMask may display a malicious-site/security warning for:
 
 https://safetern.xyz
 
@@ -366,15 +366,15 @@ See:
 
 ---
 
-## Build 06.4 Status
+## Build 06.4.1 Status
 
-Build 06.4 is the current production hackathon baseline.
+Build 06.4.1 is the current production hackathon baseline.
 
 It preserves the existing GenLayer Intelligent Contract and continuity architecture while improving the user-facing Safetern Guardian Telegram experience.
 
 No Intelligent Contract redeployment was required.
 
-The Build 06.4 Guardian code has passed local JavaScript syntax validation, been deployed to the Oracle production server, restarted successfully under systemd, and verified through the live Telegram bot.
+The Build 06.4.1 Guardian code has passed local JavaScript syntax validation, been deployed to the Oracle production server, restarted successfully under systemd, and verified through the live Telegram bot.
 
 ---
 
@@ -386,4 +386,4 @@ It uses GenLayer to interpret the significance of that inactivity and then combi
 
 > **We're not measuring inactivity. We're determining what the inactivity means.**
 
-**Safetern — Built to continue.**
+**Safetern â€” Built to continue.**

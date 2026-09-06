@@ -1,4 +1,4 @@
-\# Safetern
+﻿\# Safetern
 
 
 
@@ -80,7 +80,7 @@ Traditional inactivity systems rely primarily on timers. Safetern uses \*\*GenLa
 
 
 
-Build 06.4 does not require a contract redeployment.
+Build 06.4.1 does not require a contract redeployment.
 
 
 
@@ -276,9 +276,9 @@ For example:
 
 &#x20;   #8 Safetern Guardian Production Test
 
-&#x20;   PROTECT · HEALTHY
+&#x20;   PROTECT Â· HEALTHY
 
-&#x20;   Last assessment: ABANDONED · 96%
+&#x20;   Last assessment: ABANDONED Â· 96%
 
 
 
@@ -504,13 +504,13 @@ The commands provide:
 
 
 
-\- `/start` — Open the Guardian home
+\- `/start` â€” Open the Guardian home
 
-\- `/status` — View Safetern records associated with the connected wallet
+\- `/status` â€” View Safetern records associated with the connected wallet
 
-\- `/record <id>` — View a specific Safetern record
+\- `/record <id>` â€” View a specific Safetern record
 
-\- `/help` — View Guardian commands, behavior, and security boundaries
+\- `/help` â€” View Guardian commands, behavior, and security boundaries
 
 
 
@@ -534,15 +534,15 @@ Example:
 
 
 
-&#x20;   Safetern Guardian · Status
+&#x20;   Safetern Guardian Â· Status
 
 
 
 &#x20;   #8 Safetern Guardian Production Test
 
-&#x20;   PROTECT · HEALTHY
+&#x20;   PROTECT Â· HEALTHY
 
-&#x20;   Last assessment: ABANDONED · 96%
+&#x20;   Last assessment: ABANDONED Â· 96%
 
 
 
@@ -822,7 +822,7 @@ This demonstrated:
 
 
 
-\*\*Monitor → GenLayer assessment → Challenge → Expiry → Autonomous finalization → Recovered\*\*
+\*\*Monitor â†’ GenLayer assessment â†’ Challenge â†’ Expiry â†’ Autonomous finalization â†’ Recovered\*\*
 
 
 
@@ -874,7 +874,7 @@ This demonstrated:
 
 
 
-\*\*Monitor → GenLayer → Challenge → Telegram → HTTPS deep link → Owner authorization → HEALTHY\*\*
+\*\*Monitor â†’ GenLayer â†’ Challenge â†’ Telegram â†’ HTTPS deep link â†’ Owner authorization â†’ HEALTHY\*\*
 
 
 
@@ -938,7 +938,7 @@ This demonstrated:
 
 
 
-\*\*Ciphertext → GenLayer continuity decision → Challenge → Permissionless finalization → Beneficiary authorization → Local decryption\*\*
+\*\*Ciphertext â†’ GenLayer continuity decision â†’ Challenge â†’ Permissionless finalization â†’ Beneficiary authorization â†’ Local decryption\*\*
 
 
 
@@ -1210,7 +1210,7 @@ Provides information for GenLayer assessment but does not directly authorize rec
 
 
 
-At the time of Build 06.4, some visits to:
+At the time of Build 06.4.1, some visits to:
 
 
 
@@ -1278,69 +1278,69 @@ Additional information is documented in:
 
 &#x20;   safetern/
 
-&#x20;   ├── contracts/
+&#x20;   â”œâ”€â”€ contracts/
 
-&#x20;   │   └── safetern.py
+&#x20;   â”‚   â””â”€â”€ safetern.py
 
-&#x20;   ├── docs/
+&#x20;   â”œâ”€â”€ docs/
 
-&#x20;   │   ├── BUILD-01.md
+&#x20;   â”‚   â”œâ”€â”€ BUILD-01.md
 
-&#x20;   │   ├── BUILD-02.md
+&#x20;   â”‚   â”œâ”€â”€ BUILD-02.md
 
-&#x20;   │   ├── ...
+&#x20;   â”‚   â”œâ”€â”€ ...
 
-&#x20;   │   ├── TELEGRAM-GUARDIAN.md
+&#x20;   â”‚   â”œâ”€â”€ TELEGRAM-GUARDIAN.md
 
-&#x20;   │   ├── CURRENT-STATUS.md
+&#x20;   â”‚   â”œâ”€â”€ CURRENT-STATUS.md
 
-&#x20;   │   └── METAMASK-WARNING.md
+&#x20;   â”‚   â””â”€â”€ METAMASK-WARNING.md
 
-&#x20;   ├── monitor/
+&#x20;   â”œâ”€â”€ monitor/
 
-&#x20;   │   ├── src/
+&#x20;   â”‚   â”œâ”€â”€ src/
 
-&#x20;   │   │   ├── guardian.js
+&#x20;   â”‚   â”‚   â”œâ”€â”€ guardian.js
 
-&#x20;   │   │   ├── index.js
+&#x20;   â”‚   â”‚   â”œâ”€â”€ index.js
 
-&#x20;   │   │   ├── telegram-setup.js
+&#x20;   â”‚   â”‚   â”œâ”€â”€ telegram-setup.js
 
-&#x20;   │   │   └── telegram-test.js
+&#x20;   â”‚   â”‚   â””â”€â”€ telegram-test.js
 
-&#x20;   │   ├── package.json
+&#x20;   â”‚   â”œâ”€â”€ package.json
 
-&#x20;   │   └── package-lock.json
+&#x20;   â”‚   â””â”€â”€ package-lock.json
 
-&#x20;   ├── web/
+&#x20;   â”œâ”€â”€ web/
 
-&#x20;   │   ├── public/
+&#x20;   â”‚   â”œâ”€â”€ public/
 
-&#x20;   │   ├── src/
+&#x20;   â”‚   â”œâ”€â”€ src/
 
-&#x20;   │   │   ├── App.jsx
+&#x20;   â”‚   â”‚   â”œâ”€â”€ App.jsx
 
-&#x20;   │   │   ├── genlayer.js
+&#x20;   â”‚   â”‚   â”œâ”€â”€ genlayer.js
 
-&#x20;   │   │   ├── recoveryCrypto.js
+&#x20;   â”‚   â”‚   â”œâ”€â”€ recoveryCrypto.js
 
-&#x20;   │   │   ├── index.css
+&#x20;   â”‚   â”‚   â”œâ”€â”€ index.css
 
-&#x20;   │   │   └── assets/
+&#x20;   â”‚   â”‚   â””â”€â”€ assets/
 
-&#x20;   │   ├── package.json
+&#x20;   â”‚   â”œâ”€â”€ package.json
 
-&#x20;   │   ├── package-lock.json
+&#x20;   â”‚   â”œâ”€â”€ package-lock.json
 
-&#x20;   │   ├── vite.config.js
+&#x20;   â”‚   â”œâ”€â”€ vite.config.js
 
-&#x20;   │   └── wrangler.jsonc
+&#x20;   â”‚   â””â”€â”€ wrangler.jsonc
 
-&#x20;   ├── BUILD-06.4.md
+&#x20;   â”œâ”€â”€ BUILD-06.4.1.md
 
-&#x20;   ├── .gitignore
+&#x20;   â”œâ”€â”€ .gitignore
 
-&#x20;   └── README.md
+&#x20;   â””â”€â”€ README.md
 
 
 
@@ -1514,11 +1514,11 @@ This prevents production credentials, private keys, Telegram tokens, live pairin
 
 
 
-\# Build 06.4
+\# Build 06.4.1
 
 
 
-Build 06.4 is the current hackathon production baseline.
+Build 06.4.1 is the current hackathon production baseline.
 
 
 
@@ -1590,11 +1590,11 @@ It includes:
 
 
 
-No Intelligent Contract redeployment was required for Build 06.4.
+No Intelligent Contract redeployment was required for Build 06.4.1.
 
 
 
-The Build 06.4 Telegram Guardian experience has been verified live against the production Oracle deployment.
+The Build 06.4.1 Telegram Guardian experience has been verified live against the production Oracle deployment.
 
 
 
@@ -1602,7 +1602,7 @@ See:
 
 
 
-`BUILD-06.4.md`
+`BUILD-06.4.1.md`
 
 
 
@@ -1654,7 +1654,7 @@ The protocol uses intelligent consensus to determine \*\*whether an action is ju
 
 
 
-\*\*Build:\*\* 06.4
+\*\*Build:\*\* 06.4.1
 
 
 
@@ -1762,5 +1762,6 @@ That is where GenLayer becomes fundamental to Safetern.
 
 
 
-\*\*Safetern — Built to continue.\*\*
+\*\*Safetern â€” Built to continue.\*\*
+
 
