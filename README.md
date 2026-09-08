@@ -80,7 +80,7 @@ Traditional inactivity systems rely primarily on timers. Safetern uses \*\*GenLa
 
 
 
-Build 06.4.1 does not require a contract redeployment.
+Build 06.5 does not require a contract redeployment.
 
 
 
@@ -276,9 +276,9 @@ For example:
 
 &#x20;   #8 Safetern Guardian Production Test
 
-&#x20;   PROTECT Â· HEALTHY
+&#x20;   PROTECT · HEALTHY
 
-&#x20;   Last assessment: ABANDONED Â· 96%
+&#x20;   Last assessment: ABANDONED · 96%
 
 
 
@@ -504,13 +504,13 @@ The commands provide:
 
 
 
-\- `/start` â€” Open the Guardian home
+\- `/start` — Open the Guardian home
 
-\- `/status` â€” View Safetern records associated with the connected wallet
+\- `/status` — View Safetern records associated with the connected wallet
 
-\- `/record <id>` â€” View a specific Safetern record
+\- `/record <id>` — View a specific Safetern record
 
-\- `/help` â€” View Guardian commands, behavior, and security boundaries
+\- `/help` — View Guardian commands, behavior, and security boundaries
 
 
 
@@ -534,15 +534,15 @@ Example:
 
 
 
-&#x20;   Safetern Guardian Â· Status
+&#x20;   Safetern Guardian · Status
 
 
 
 &#x20;   #8 Safetern Guardian Production Test
 
-&#x20;   PROTECT Â· HEALTHY
+&#x20;   PROTECT · HEALTHY
 
-&#x20;   Last assessment: ABANDONED Â· 96%
+&#x20;   Last assessment: ABANDONED · 96%
 
 
 
@@ -822,7 +822,7 @@ This demonstrated:
 
 
 
-\*\*Monitor â†’ GenLayer assessment â†’ Challenge â†’ Expiry â†’ Autonomous finalization â†’ Recovered\*\*
+\*\*Monitor → GenLayer assessment → Challenge → Expiry → Autonomous finalization → Recovered\*\*
 
 
 
@@ -874,7 +874,7 @@ This demonstrated:
 
 
 
-\*\*Monitor â†’ GenLayer â†’ Challenge â†’ Telegram â†’ HTTPS deep link â†’ Owner authorization â†’ HEALTHY\*\*
+\*\*Monitor → GenLayer → Challenge → Telegram → HTTPS deep link → Owner authorization → HEALTHY\*\*
 
 
 
@@ -938,7 +938,7 @@ This demonstrated:
 
 
 
-\*\*Ciphertext â†’ GenLayer continuity decision â†’ Challenge â†’ Permissionless finalization â†’ Beneficiary authorization â†’ Local decryption\*\*
+\*\*Ciphertext → GenLayer continuity decision → Challenge → Permissionless finalization → Beneficiary authorization → Local decryption\*\*
 
 
 
@@ -1210,7 +1210,7 @@ Provides information for GenLayer assessment but does not directly authorize rec
 
 
 
-At the time of Build 06.4.1, some visits to:
+At the time of Build 06.5, some visits to:
 
 
 
@@ -1278,69 +1278,69 @@ Additional information is documented in:
 
 &#x20;   safetern/
 
-&#x20;   â”œâ”€â”€ contracts/
+&#x20;   ├── contracts/
 
-&#x20;   â”‚   â””â”€â”€ safetern.py
+&#x20;   │   └── safetern.py
 
-&#x20;   â”œâ”€â”€ docs/
+&#x20;   ├── docs/
 
-&#x20;   â”‚   â”œâ”€â”€ BUILD-01.md
+&#x20;   │   ├── BUILD-01.md
 
-&#x20;   â”‚   â”œâ”€â”€ BUILD-02.md
+&#x20;   │   ├── BUILD-02.md
 
-&#x20;   â”‚   â”œâ”€â”€ ...
+&#x20;   │   ├── ...
 
-&#x20;   â”‚   â”œâ”€â”€ TELEGRAM-GUARDIAN.md
+&#x20;   │   ├── TELEGRAM-GUARDIAN.md
 
-&#x20;   â”‚   â”œâ”€â”€ CURRENT-STATUS.md
+&#x20;   │   ├── CURRENT-STATUS.md
 
-&#x20;   â”‚   â””â”€â”€ METAMASK-WARNING.md
+&#x20;   │   └── METAMASK-WARNING.md
 
-&#x20;   â”œâ”€â”€ monitor/
+&#x20;   ├── monitor/
 
-&#x20;   â”‚   â”œâ”€â”€ src/
+&#x20;   │   ├── src/
 
-&#x20;   â”‚   â”‚   â”œâ”€â”€ guardian.js
+&#x20;   │   │   ├── guardian.js
 
-&#x20;   â”‚   â”‚   â”œâ”€â”€ index.js
+&#x20;   │   │   ├── index.js
 
-&#x20;   â”‚   â”‚   â”œâ”€â”€ telegram-setup.js
+&#x20;   │   │   ├── telegram-setup.js
 
-&#x20;   â”‚   â”‚   â””â”€â”€ telegram-test.js
+&#x20;   │   │   └── telegram-test.js
 
-&#x20;   â”‚   â”œâ”€â”€ package.json
+&#x20;   │   ├── package.json
 
-&#x20;   â”‚   â””â”€â”€ package-lock.json
+&#x20;   │   └── package-lock.json
 
-&#x20;   â”œâ”€â”€ web/
+&#x20;   ├── web/
 
-&#x20;   â”‚   â”œâ”€â”€ public/
+&#x20;   │   ├── public/
 
-&#x20;   â”‚   â”œâ”€â”€ src/
+&#x20;   │   ├── src/
 
-&#x20;   â”‚   â”‚   â”œâ”€â”€ App.jsx
+&#x20;   │   │   ├── App.jsx
 
-&#x20;   â”‚   â”‚   â”œâ”€â”€ genlayer.js
+&#x20;   │   │   ├── genlayer.js
 
-&#x20;   â”‚   â”‚   â”œâ”€â”€ recoveryCrypto.js
+&#x20;   │   │   ├── recoveryCrypto.js
 
-&#x20;   â”‚   â”‚   â”œâ”€â”€ index.css
+&#x20;   │   │   ├── index.css
 
-&#x20;   â”‚   â”‚   â””â”€â”€ assets/
+&#x20;   │   │   └── assets/
 
-&#x20;   â”‚   â”œâ”€â”€ package.json
+&#x20;   │   ├── package.json
 
-&#x20;   â”‚   â”œâ”€â”€ package-lock.json
+&#x20;   │   ├── package-lock.json
 
-&#x20;   â”‚   â”œâ”€â”€ vite.config.js
+&#x20;   │   ├── vite.config.js
 
-&#x20;   â”‚   â””â”€â”€ wrangler.jsonc
+&#x20;   │   └── wrangler.jsonc
 
-&#x20;   â”œâ”€â”€ BUILD-06.4.1.md
+&#x20;   ├── BUILD-06.5.md
 
-&#x20;   â”œâ”€â”€ .gitignore
+&#x20;   ├── .gitignore
 
-&#x20;   â””â”€â”€ README.md
+&#x20;   └── README.md
 
 
 
@@ -1602,7 +1602,7 @@ See:
 
 
 
-`BUILD-06.4.1.md`
+`BUILD-06.5.md`
 
 
 
@@ -1622,7 +1622,48 @@ See:
 
 
 
-\# Hackathon
+\# Embedded Judge Demo
+
+Build 06.5 adds a production embedded demo so reviewers can evaluate Safetern without supplying a wallet or private keys.
+
+Open:
+
+https://safetern.xyz
+
+Then start the **Embedded Demo** from the application.
+
+The demo provides an isolated funded GenLayer Studionet Owner/Beneficiary pair for the browser session. Reviewers can switch between the two roles and exercise the application while Safetern keeps demo signing narrowly scoped on the server.
+
+Demo safeguards include:
+
+- no MetaMask requirement
+- five isolated funded Owner/Beneficiary pairs
+- exclusive pair allocation per active session
+- 45-minute sessions
+- maximum transaction allowance per session
+- transaction/IP rate limits
+- private keys never exposed to the browser
+- allowlisted contract functions only
+- narrowly restricted Recovery Identity signing
+- demo-created records clearly prefixed with `Demo ·`
+
+The demo is designed to demonstrate the real production architecture rather than simulate the UI. Actions use the deployed Safetern Intelligent Contract on GenLayer Studionet.
+
+### Suggested reviewer path
+
+1. Start the Embedded Demo as **Demo Owner**.
+2. Open **Protect**, **Watch**, and **Recover** to inspect live demo records and GenLayer reasoning.
+3. Connect **Safetern Guardian** and confirm the Telegram pairing message.
+4. Switch to **Demo Beneficiary** without reconnecting a wallet.
+5. Open **Recover** and inspect the beneficiary-nominated covenant.
+6. Create a **Recovery Identity** if the active demo beneficiary does not already have one.
+7. Switch back to Owner and use **Find Recovery Identity** in the Recover creation flow to verify beneficiary identity discovery.
+
+Refreshing the page preserves the active demo session, selected role, Guardian connection state, and active Safetern tab for the duration of the session.
+
+---
+
+# Hackathon
 
 
 
@@ -1762,6 +1803,6 @@ That is where GenLayer becomes fundamental to Safetern.
 
 
 
-\*\*Safetern â€” Built to continue.\*\*
+\*\*Safetern — Built to continue.\*\*
 
 
