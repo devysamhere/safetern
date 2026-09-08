@@ -52,6 +52,18 @@ Traditional inactivity systems rely primarily on timers. Safetern uses \*\*GenLa
 
 
 
+\## Telegram Guardian — Smart Alerts Beyond the Browser
+
+\*\*Safetern Guardian keeps monitoring when the Safetern tab is closed.\*\* Pair a wallet with `@SafeternGuardianBot` from the Safetern interface to receive smart Telegram alerts for meaningful continuity events, assessment problems, challenges, owner-presence actions, recovery finalization, and beneficiary availability.
+
+> \*\*Monitoring cadence is not notification cadence.\*\* A Watch interval controls when Safetern determines that a new GenLayer assessment is due. Guardian does not send repetitive Telegram messages merely because an interval elapsed or an unchanged assessment completed. It alerts when something meaningful changes or requires attention.
+
+After creating a new \*\*Watch, Protect, or Recover\*\* record, run its \*\*first assessment\*\* to establish the initial GenLayer continuity state. Then connect Telegram Guardian if you want Safetern to keep you informed without leaving the application open.
+
+Guardian can monitor, notify, gather evidence, and submit permissionless protocol actions. It \*\*cannot impersonate the owner or beneficiary\*\*, confirm owner presence, authorize beneficiary recovery access, decrypt recovery information, or override GenLayer consensus.
+
+\---
+
 \## GenLayer Intelligent Contract
 
 
@@ -483,6 +495,8 @@ The wallet signature used for pairing does \*\*not\*\* authorize asset transfers
 
 
 Once connected, Guardian sends meaningful alerts for Safetern records involving that wallet.
+
+Guardian uses a \*\*smart-alert model\*\* rather than treating monitoring cadence as a notification schedule. For example, a Watch configured with a 1-hour assessment cadence does \*\*not\*\* imply an hourly Telegram message. The cadence determines when a new GenLayer assessment is due; unchanged routine results are not repeatedly pushed. Guardian prioritizes meaningful state changes, assessment problems, challenges, recovery events, and other events that require attention.
 
 
 
@@ -1574,9 +1588,9 @@ Start the **Embedded Demo**. Safetern assigns the browser session an isolated fu
 The strongest way to review Safetern is to create new records rather than only inspect existing examples.
 
 1. Start **Embedded Demo** as **Demo Owner**.
-2. Open **Watch** and create a new Watch record using public evidence of your choice. Submit it and verify that the new record appears and can receive a GenLayer continuity assessment.
+2. Open **Watch** and create a new Watch record using public evidence of your choice. After creation, select **Run first assessment** and wait for GenLayer to establish the initial continuity state. Use **View Watch** to return to the Watch page.
 3. Open **Protect** and create your own continuity covenant. Verify that the resulting onchain record appears under the Demo Owner and exposes its lifecycle/assessment information.
-4. Connect **Safetern Guardian** from the demo and complete the Telegram pairing. Confirm that Guardian recognizes the demo wallet.
+4. Connect **Safetern Guardian** from the demo and complete the Telegram pairing. Confirm that Guardian recognizes the demo wallet. Guardian provides smart alerts for meaningful events; the record's monitoring cadence is not a recurring Telegram notification schedule.
 5. Switch to **Demo Beneficiary**.
 6. Create a **Recovery Identity** for that beneficiary if the active demo beneficiary does not already have one.
 7. Switch back to **Demo Owner**, open **Recover**, enter the Demo Beneficiary wallet, and use **Find Recovery Identity**. Confirm that Safetern discovers the registered beneficiary identity.
