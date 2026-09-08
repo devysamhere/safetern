@@ -1396,10 +1396,30 @@ export class TelegramGuardian {
               }
             );
           } else {
-            await this.sendTo(
-              chatId,
-              "This Safetern Guardian pairing link is invalid or expired.\n\nReturn to Safetern and create a new connection request."
-            );
+            const connections = this.readConnections();
+            const existingWallet =
+              connections.chats?.[chatId]?.wallet || null;
+
+            if (existingWallet) {
+              await this.sendTo(
+                chatId,
+                [
+                  "Safetern Guardian is already connected ✓",
+                  "",
+                  `Wallet: ${shortWallet(existingWallet)}`,
+                  "",
+                  "Your Guardian connection is active. This one-time pairing link has already been used.",
+                ].join("\n"),
+                {
+                  reply_markup: this.mainKeyboard(),
+                }
+              );
+            } else {
+              await this.sendTo(
+                chatId,
+                "This Safetern Guardian pairing link is invalid or expired.\n\nReturn to Safetern and create a new connection request."
+              );
+            }
           }
 
           continue;

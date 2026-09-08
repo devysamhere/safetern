@@ -38,6 +38,7 @@ async function aesKeyFromSignature(signature) {
 }
 
 async function signPersonal(account, message) {
+  if (typeof window.__SAFETERN_DEMO_SIGN__ === "function") return window.__SAFETERN_DEMO_SIGN__(account, message);
   if (!window.ethereum) throw new Error("No browser wallet detected.");
   return window.ethereum.request({ method: "personal_sign", params: [message, account] });
 }
