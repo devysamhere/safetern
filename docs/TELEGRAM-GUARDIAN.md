@@ -100,6 +100,12 @@ This means Telegram information and status requests are associated with the wall
 
 Disconnecting Guardian remains a wallet-authorized action through the Safetern website.
 
+### Embedded Demo Pairing
+
+Build 06.5 supports Guardian pairing and disconnect from the Embedded Demo without MetaMask. The demo backend authorizes only the narrowly scoped signing required for the assigned demo wallet; private keys are never sent to the browser.
+
+Production verification confirmed that Guardian connection state and disconnection state persist across page refreshes for the active demo session.
+
 
 
 \---
@@ -110,7 +116,7 @@ Disconnecting Guardian remains a wallet-authorized action through the Safetern w
 
 
 
-Build 06.4.1 registers native Telegram bot commands.
+Build 06.5 registers the production Telegram bot commands described below.
 
 
 
@@ -118,19 +124,19 @@ Typing `/` in the Guardian chat displays:
 
 
 
-`/start` â€” Open Guardian home
+`/start` — Open Guardian home
 
 
 
-`/status` â€” View your Safetern records
+`/status` — View your Safetern records
 
 
 
-`/record` â€” View a specific record by ID
+`/record` — View a specific record by ID
 
 
 
-`/help` â€” Guardian help and commands
+`/help` — Guardian help and commands
 
 
 
@@ -230,15 +236,15 @@ Example:
 
 
 
-&#x20;   Safetern Guardian Â· Status
+&#x20;   Safetern Guardian · Status
 
 
 
 &#x20;   #8 Safetern Guardian Production Test
 
-&#x20;   PROTECT Â· HEALTHY
+&#x20;   PROTECT · HEALTHY
 
-&#x20;   Last assessment: ABANDONED Â· 96%
+&#x20;   Last assessment: ABANDONED · 96%
 
 
 
@@ -252,7 +258,7 @@ In the example above:
 
 \- current covenant state: `HEALTHY`
 
-\- last GenLayer assessment: `ABANDONED Â· 96%`
+\- last GenLayer assessment: `ABANDONED · 96%`
 
 
 
@@ -692,7 +698,7 @@ The production Telegram Guardian runs through:
 
 
 
-`Telegram â†” Safetern Guardian â†” GenLayer / Safetern`
+`Telegram ↔ Safetern Guardian ↔ GenLayer / Safetern`
 
 
 
@@ -724,11 +730,11 @@ The Guardian service is configured to restart automatically and start at boot.
 
 
 
-\# Build 06.4.1 Production Verification
+\# Build 06.5 Production Verification
 
 
 
-The Build 06.4.1 Telegram experience was tested directly against the production Guardian.
+The Build 06.5 Telegram experience was tested directly against the production Guardian.
 
 
 
@@ -754,7 +760,7 @@ Verified successfully:
 
 9\. interactive Guardian buttons remain available after responses
 
-10\. Build 06.3 lifecycle/assessment status clarity remains preserved
+10\. lifecycle/assessment status clarity remains preserved
 
 
 
@@ -762,7 +768,7 @@ The production `safetern-guardian` systemd service remained active after deploym
 
 
 
-No GenLayer Intelligent Contract redeployment was required for Build 06.4.1.
+No GenLayer Intelligent Contract redeployment was required for Build 06.5.
 
 
 
@@ -774,7 +780,7 @@ No GenLayer Intelligent Contract redeployment was required for Build 06.4.1.
 
 
 
-\*\*Build:\*\* 06.4.1
+\*\*Build:\*\* 06.5
 
 
 
@@ -846,6 +852,6 @@ No GenLayer Intelligent Contract redeployment was required for Build 06.4.1.
 
 
 
-\*\*Safetern Guardian â€” Built to continue.\*\*
+\*\*Safetern Guardian — Built to continue.\*\*
 
 

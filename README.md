@@ -1284,12 +1284,6 @@ Additional information is documented in:
 
 &#x20;   ├── docs/
 
-&#x20;   │   ├── BUILD-01.md
-
-&#x20;   │   ├── BUILD-02.md
-
-&#x20;   │   ├── ...
-
 &#x20;   │   ├── TELEGRAM-GUARDIAN.md
 
 &#x20;   │   ├── CURRENT-STATUS.md
@@ -1514,152 +1508,99 @@ This prevents production credentials, private keys, Telegram tokens, live pairin
 
 
 
-\# Build 06.4.1
+\# Build 06.5
 
-
-
-Build 06.4.1 is the current hackathon production baseline.
-
-
+Build 06.5 is the current hackathon production baseline.
 
 It includes:
 
-
-
 \- GenLayer Intelligent Contract v0.3.2
-
 \- Protect
-
 \- Watch
-
 \- Recover
-
 \- browser-side encrypted recovery
-
 \- Recovery Identity authorization
-
 \- beneficiary-only recovery access
-
 \- crypto Watch monitoring
-
 \- DEX liquidity monitoring
-
 \- confirmed delisting signal monitoring
-
 \- autonomous keeper
-
 \- Telegram Guardian
-
 \- wallet-authorized Guardian pairing
-
 \- multi-user Guardian connections
-
 \- native Telegram `/` command menu
-
 \- `/start`, `/status`, `/record`, and `/help`
-
-\- professional Guardian home interface
-
-\- `VIEW STATUS`, `OPEN SAFETERN`, and `HELP` navigation
-
-\- wallet-scoped Telegram commands
-
-\- clear `/record` usage guidance
-
-\- unknown-command handling
-
-\- owner challenge notifications
-
-\- owner-presence deep links
-
+\- owner challenge notifications and owner-presence deep links
 \- autonomous challenge monitoring
-
 \- permissionless recovery finalization
-
 \- RPC throttling and resilience
-
 \- 24/7 Oracle Cloud Guardian
-
-\- Cloudflare Tunnel
-
-\- public Guardian HTTPS API
-
+\- Cloudflare Tunnel and public Guardian HTTPS API
 \- production `safetern.xyz` deployment
+\- embedded judge demo with five isolated funded Owner/Beneficiary pairs
+\- real supported demo transactions against the deployed contract
+\- Demo Owner / Demo Beneficiary role switching
+\- Recovery Identity creation and beneficiary identity discovery
+\- demo-aware Guardian pairing and disconnect
+\- session, role, Guardian-state, and active-tab persistence across refreshes
+\- record-loading UX across Home, Protect, Watch, and Recover
 
-\- clarified Guardian lifecycle/assessment reporting
-
-
-
-No Intelligent Contract redeployment was required for Build 06.4.1.
-
-
-
-The Build 06.4.1 Telegram Guardian experience has been verified live against the production Oracle deployment.
-
-
+No Intelligent Contract redeployment was required for Build 06.5.
 
 See:
 
-
-
 `BUILD-06.5.md`
-
-
 
 `docs/CURRENT-STATUS.md`
 
-
-
 `docs/TELEGRAM-GUARDIAN.md`
-
-
 
 `docs/METAMASK-WARNING.md`
 
-
-
 \---
-
-
 
 \# Embedded Judge Demo
 
-Build 06.5 adds a production embedded demo so reviewers can evaluate Safetern without supplying a wallet or private keys.
+Build 06.5 includes a production embedded demo so reviewers can test Safetern themselves without supplying a wallet, private key, or MetaMask account.
 
 Open:
 
 https://safetern.xyz
 
-Then start the **Embedded Demo** from the application.
+Start the **Embedded Demo**. Safetern assigns the browser session an isolated funded GenLayer Studionet Owner/Beneficiary pair. The demo uses the real deployed Safetern Intelligent Contract; it is not a simulated UI.
 
-The demo provides an isolated funded GenLayer Studionet Owner/Beneficiary pair for the browser session. Reviewers can switch between the two roles and exercise the application while Safetern keeps demo signing narrowly scoped on the server.
+## Recommended reviewer test
 
-Demo safeguards include:
+The strongest way to review Safetern is to create new records rather than only inspect existing examples.
 
-- no MetaMask requirement
+1. Start **Embedded Demo** as **Demo Owner**.
+2. Open **Watch** and create a new Watch record using public evidence of your choice. Submit it and verify that the new record appears and can receive a GenLayer continuity assessment.
+3. Open **Protect** and create your own continuity covenant. Verify that the resulting onchain record appears under the Demo Owner and exposes its lifecycle/assessment information.
+4. Connect **Safetern Guardian** from the demo and complete the Telegram pairing. Confirm that Guardian recognizes the demo wallet.
+5. Switch to **Demo Beneficiary**.
+6. Create a **Recovery Identity** for that beneficiary if the active demo beneficiary does not already have one.
+7. Switch back to **Demo Owner**, open **Recover**, enter the Demo Beneficiary wallet, and use **Find Recovery Identity**. Confirm that Safetern discovers the registered beneficiary identity.
+8. Create a new **Recover** covenant with safe test recovery information. Do not enter a seed phrase or raw private key.
+9. Switch back to **Demo Beneficiary** and verify that the newly created Recover covenant is visible to the nominated beneficiary.
+10. Refresh on Protect, Watch, or Recover to verify that the demo session, selected role, active tab, records, and Guardian connection state persist for the active session.
+
+Reviewers can also inspect the existing production-tested records and GenLayer reasoning, but creating fresh records demonstrates that the deployed workflow is live.
+
+## Demo safeguards
+
+- no MetaMask required
 - five isolated funded Owner/Beneficiary pairs
-- exclusive pair allocation per active session
-- 45-minute sessions
-- maximum transaction allowance per session
+- one pair allocated per active demo session
+- 45-minute session lifetime
+- maximum 12 demo transactions per session
 - transaction/IP rate limits
-- private keys never exposed to the browser
-- allowlisted contract functions only
-- narrowly restricted Recovery Identity signing
-- demo-created records clearly prefixed with `Demo ·`
+- private keys remain server-side
+- only allowlisted contract functions can be submitted through the demo transaction endpoint
+- Recovery Identity signing is narrowly restricted
+- demo-created records are prefixed with `Demo ·`
+- full seed phrases and raw private keys remain blocked by the recovery interface
 
-The demo is designed to demonstrate the real production architecture rather than simulate the UI. Actions use the deployed Safetern Intelligent Contract on GenLayer Studionet.
-
-### Suggested reviewer path
-
-1. Start the Embedded Demo as **Demo Owner**.
-2. Open **Protect**, **Watch**, and **Recover** to inspect live demo records and GenLayer reasoning.
-3. Connect **Safetern Guardian** and confirm the Telegram pairing message.
-4. Switch to **Demo Beneficiary** without reconnecting a wallet.
-5. Open **Recover** and inspect the beneficiary-nominated covenant.
-6. Create a **Recovery Identity** if the active demo beneficiary does not already have one.
-7. Switch back to Owner and use **Find Recovery Identity** in the Recover creation flow to verify beneficiary identity discovery.
-
-Refreshing the page preserves the active demo session, selected role, Guardian connection state, and active Safetern tab for the duration of the session.
+The embedded demo changes the signing experience for reviewers, not Safetern's protocol authority model. GenLayer remains responsible for intelligent continuity assessment, the Intelligent Contract remains responsible for consensus-critical state and authorization, and Guardian remains an automation/notification layer.
 
 ---
 
@@ -1695,7 +1636,7 @@ The protocol uses intelligent consensus to determine \*\*whether an action is ju
 
 
 
-\*\*Build:\*\* 06.4.1
+\*\*Build:\*\* 06.5
 
 
 

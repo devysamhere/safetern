@@ -6,7 +6,7 @@
 
 
 
-At the time of Safetern Build 06.3, MetaMask may display a malicious-site or security warning when visiting:
+At the time of Safetern Build 06.5, MetaMask may display a malicious-site or security warning when visiting:
 
 
 
@@ -157,6 +157,8 @@ Verified flows include:
 \- Guardian owner-presence deep links
 
 \- 24/7 Guardian monitoring
+- embedded Demo Owner/Beneficiary sessions without MetaMask
+- Recovery Identity creation and beneficiary identity discovery in the embedded demo
 
 
 
@@ -308,6 +310,8 @@ Actions that modify Intelligent Contract state are presented as blockchain trans
 
 If MetaMask displays the warning while reviewing Safetern, please do not disable wallet security protections solely to access the project.
 
+Build 06.5 also provides an **Embedded Demo** that does not require MetaMask. Reviewers can use it to create and inspect real Protect, Watch, and Recover records on GenLayer Studionet while demo keys remain server-side.
+
 
 
 The complete Safetern implementation can be independently inspected through the public GitHub repository:
@@ -376,7 +380,7 @@ This document exists so testers and hackathon reviewers know:
 
 
 
-This document reflects the status of \*\*Safetern Build 06.3\*\*.
+This document reflects the status of \*\*Safetern Build 06.5\*\*.
 
 
 
