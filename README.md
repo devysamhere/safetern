@@ -1220,72 +1220,6 @@ Provides information for GenLayer assessment but does not directly authorize rec
 
 
 
-\# MetaMask Security Warning
-
-
-
-At the time of Build 06.5, some visits to:
-
-
-
-https://safetern.xyz
-
-
-
-may trigger a MetaMask malicious-site/security warning.
-
-
-
-The Safetern production application itself is deployed at that domain, and the application has also been tested locally without the same domain warning.
-
-
-
-A false-positive report/review has been submitted through the appropriate MetaMask security-reporting process.
-
-
-
-Safetern does \*\*not\*\* ask users or hackathon reviewers to disable MetaMask security alerts.
-
-
-
-Until the domain review is resolved, reviewers should independently verify:
-
-
-
-\- the domain: `safetern.xyz`
-
-\- this public GitHub repository
-
-\- the deployed GenLayer Intelligent Contract address
-
-\- the transaction or signature requested by their wallet before approving it
-
-
-
-Current contract:
-
-
-
-`0x2c43B5282af2Fc73bdef578E82EeAA78BB5346DB`
-
-
-
-The known domain warning does not alter Safetern's Intelligent Contract authorization model, Guardian architecture, or beneficiary encryption model.
-
-
-
-Additional information is documented in:
-
-
-
-`docs/METAMASK-WARNING.md`
-
-
-
-\---
-
-
-
 \# Repository Structure
 
 
@@ -1302,7 +1236,6 @@ Additional information is documented in:
 
 &#x20;   │   ├── CURRENT-STATUS.md
 
-&#x20;   │   └── METAMASK-WARNING.md
 
 &#x20;   ├── monitor/
 
@@ -1569,7 +1502,6 @@ See:
 
 `docs/TELEGRAM-GUARDIAN.md`
 
-`docs/METAMASK-WARNING.md`
 
 \---
 
@@ -1718,7 +1650,6 @@ The protocol uses intelligent consensus to determine \*\*whether an action is ju
 
 
 
-\*\*Current known issue:\*\* MetaMask may display a domain security warning for `safetern.xyz`; false-positive review has been submitted.
 
 
 
