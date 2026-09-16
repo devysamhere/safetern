@@ -1,12 +1,39 @@
 import { createClient } from "genlayer-js";
-import { studionet } from "genlayer-js/chains";
+import { studioDevnet } from "genlayer-js/chains";
 
 export const SAFETERN_CONTRACT = import.meta.env.VITE_SAFETERN_CONTRACT || "0x2c43B5282af2Fc73bdef578E82EeAA78BB5346DB";
-export const readClient = createClient({ chain: studionet });
-export function walletClient(account) { return createClient({ chain: studionet, account, provider: window.ethereum }); }
+export const readClient = createClient({ chain: studioDevnet });
+export function walletClient(account) { return createClient({ chain: studioDevnet, account, provider: window.ethereum }); }
+
+const STUDIO_NEXT_CHAIN_ID_HEX = "0xf22d"; // 61997
+
+async function ensureStudioNextNetwork() {
+  if (!window.ethereum) throw new Error("No compatible browser wallet detected.");
+  const current = await window.ethereum.request({ method: "eth_chainId" });
+  if (String(current || "").toLowerCase() === STUDIO_NEXT_CHAIN_ID_HEX) return;
+  try {
+    await window.ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: STUDIO_NEXT_CHAIN_ID_HEX }],
+    });
+  } catch (error) {
+    if (Number(error?.code) !== 4902) throw error;
+    await window.ethereum.request({
+      method: "wallet_addEthereumChain",
+      params: [{
+        chainId: STUDIO_NEXT_CHAIN_ID_HEX,
+        chainName: "GenLayer Studio Next",
+        nativeCurrency: { name: "GEN", symbol: "GEN", decimals: 18 },
+        rpcUrls: ["https://studio-dev.genlayer.com/api"],
+        blockExplorerUrls: ["https://explorer-studio-dev.genlayer.com"],
+      }],
+    });
+  }
+}
 
 export async function connectWallet() {
   if (!window.ethereum) throw new Error("No compatible browser wallet detected.");
+  await ensureStudioNextNetwork();
   const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
   if (!accounts?.length) throw new Error("No wallet account selected.");
   const account = accounts[0];
@@ -128,6 +155,17 @@ export async function getAllRecords() {
   return rows;
 }
 
+async function writeWithEstimatedFees(client, request) {
+  const estimate = await client.estimateTransactionFeesForWrite(request);
+  return client.writeContract({
+    ...request,
+    fees: {
+      distribution: estimate.distribution,
+      feeValue: estimate.feeValue,
+    },
+  });
+}
+
 function cleanSources(values) {
   const sources = values.map((v) => v.trim()).filter(Boolean);
   if (!sources.length) throw new Error("Add at least one evidence URL.");
@@ -146,27 +184,27 @@ export async function createWatch(client, v) {
     track_project_activity: Boolean(v.trackProjectActivity),
     major_exchanges: v.watchType === "crypto" && v.trackDelistings ? ["Binance","Coinbase","Bybit","OKX","KuCoin"] : [],
   };
-  const result = await client.writeContract({ address: SAFETERN_CONTRACT, functionName: "create_watch", args: [v.name.trim(), v.description.trim(), v.entity.trim(), v.rule.trim(), JSON.stringify(cleanSources(v.sources)), JSON.stringify(metadata), Number(v.monitoringInterval || 21600), Math.floor(Date.now()/1000)], value: 0n });
+  const result = await writeWithEstimatedFees(client, { address: SAFETERN_CONTRACT, functionName: "create_watch", args: [v.name.trim(), v.description.trim(), v.entity.trim(), v.rule.trim(), JSON.stringify(cleanSources(v.sources)), JSON.stringify(metadata), Number(v.monitoringInterval || 21600), Math.floor(Date.now()/1000)], value: 0n });
   return result;
 }
 export async function createProtect(client, v) {
   if (!client) throw new Error("Connect your wallet first.");
-  return client.writeContract({ address: SAFETERN_CONTRACT, functionName: "create_protect_covenant", args: [v.name.trim(), v.description.trim(), v.entity.trim(), v.recoveryController.trim(), v.rule.trim(), v.policy, JSON.stringify(cleanSources(v.sources)), Number(v.challengeSeconds), Math.floor(Date.now()/1000)], value: 0n });
+  return writeWithEstimatedFees(client, { address: SAFETERN_CONTRACT, functionName: "create_protect_covenant", args: [v.name.trim(), v.description.trim(), v.entity.trim(), v.recoveryController.trim(), v.rule.trim(), v.policy, JSON.stringify(cleanSources(v.sources)), Number(v.challengeSeconds), Math.floor(Date.now()/1000)], value: 0n });
 }
 export async function createRecovery(client, v) {
   if (!client) throw new Error("Connect your wallet first.");
-  return client.writeContract({ address: SAFETERN_CONTRACT, functionName: "create_recovery_covenant", args: [v.name.trim(), v.description.trim(), v.entity.trim(), v.beneficiary.trim(), v.rule.trim(), v.policy, JSON.stringify(cleanSources(v.sources)), Number(v.challengeSeconds), v.encryptedPayloadRef, v.encryptedPayloadHash, Math.floor(Date.now()/1000)], value: 0n });
+  return writeWithEstimatedFees(client, { address: SAFETERN_CONTRACT, functionName: "create_recovery_covenant", args: [v.name.trim(), v.description.trim(), v.entity.trim(), v.beneficiary.trim(), v.rule.trim(), v.policy, JSON.stringify(cleanSources(v.sources)), Number(v.challengeSeconds), v.encryptedPayloadRef, v.encryptedPayloadHash, Math.floor(Date.now()/1000)], value: 0n });
 }
 export async function registerRecoveryIdentity(client, identityCode, fingerprint) {
   if (!client) throw new Error("Connect your wallet first.");
-  return client.writeContract({ address: SAFETERN_CONTRACT, functionName: "register_recovery_identity", args: [identityCode, fingerprint, Math.floor(Date.now()/1000)], value: 0n });
+  return writeWithEstimatedFees(client, { address: SAFETERN_CONTRACT, functionName: "register_recovery_identity", args: [identityCode, fingerprint, Math.floor(Date.now()/1000)], value: 0n });
 }
 export async function setMonitoringInterval(client, recordId, seconds) {
   if (!client) throw new Error("Connect your wallet first.");
-  return client.writeContract({ address: SAFETERN_CONTRACT, functionName: "set_monitoring_interval", args: [Number(recordId), Number(seconds)], value: 0n });
+  return writeWithEstimatedFees(client, { address: SAFETERN_CONTRACT, functionName: "set_monitoring_interval", args: [Number(recordId), Number(seconds)], value: 0n });
 }
-export async function assessRecord(client, id) { if (!client) throw new Error("Connect your wallet first."); return client.writeContract({ address: SAFETERN_CONTRACT, functionName: "assess", args: [Number(id)], value: 0n }); }
-export async function confirmPresence(client, id) { if (!client) throw new Error("Connect your wallet first."); return client.writeContract({ address: SAFETERN_CONTRACT, functionName: "confirm_presence", args: [Number(id)], value: 0n }); }
-export async function finalizeRecovery(client, id) { if (!client) throw new Error("Connect your wallet first."); return client.writeContract({ address: SAFETERN_CONTRACT, functionName: "finalize_recovery", args: [Number(id)], value: 0n }); }
-export async function claimRecoveryAccess(client, id) { if (!client) throw new Error("Connect your wallet first."); return client.writeContract({ address: SAFETERN_CONTRACT, functionName: "claim_recovery_access", args: [Number(id)], value: 0n }); }
+export async function assessRecord(client, id) { if (!client) throw new Error("Connect your wallet first."); return writeWithEstimatedFees(client, { address: SAFETERN_CONTRACT, functionName: "assess", args: [Number(id)], value: 0n }); }
+export async function confirmPresence(client, id) { if (!client) throw new Error("Connect your wallet first."); return writeWithEstimatedFees(client, { address: SAFETERN_CONTRACT, functionName: "confirm_presence", args: [Number(id)], value: 0n }); }
+export async function finalizeRecovery(client, id) { if (!client) throw new Error("Connect your wallet first."); return writeWithEstimatedFees(client, { address: SAFETERN_CONTRACT, functionName: "finalize_recovery", args: [Number(id)], value: 0n }); }
+export async function claimRecoveryAccess(client, id) { if (!client) throw new Error("Connect your wallet first."); return writeWithEstimatedFees(client, { address: SAFETERN_CONTRACT, functionName: "claim_recovery_access", args: [Number(id)], value: 0n }); }
 export function txHash(result) { if (typeof result === "string") return result; return result?.hash || result?.transactionHash || result?.txHash || ""; }
