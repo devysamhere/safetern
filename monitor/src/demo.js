@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 import { createAccount, createClient } from "genlayer-js";
-import { studionet } from "genlayer-js/chains";
+import { studioDevnet } from "genlayer-js/chains";
 import { Wallet } from "ethers";
 
 const norm = (v = "") => String(v || "").trim().toLowerCase();
@@ -46,12 +46,12 @@ export class SafeternDemoWallets {
           createAccount(beneficiaryKey);
 
         const ownerClient = createClient({
-          chain: studionet,
+          chain: studioDevnet,
           account: ownerAccount,
         });
 
         const beneficiaryClient = createClient({
-          chain: studionet,
+          chain: studioDevnet,
           account: beneficiaryAccount,
         });
 
@@ -615,14 +615,23 @@ export class SafeternDemoWallets {
         ? pair.beneficiaryClient
         : pair.ownerClient;
 
+    const write = {
+      address: this.contract,
+      functionName: String(functionName),
+      args: safeArgs,
+      value: 0n,
+    };
+
+    const estimate =
+      await client.estimateTransactionFeesForWrite(write);
+
     const result =
       await client.writeContract({
-        address: this.contract,
-        functionName: String(
-          functionName
-        ),
-        args: safeArgs,
-        value: 0n,
+        ...write,
+        fees: {
+          distribution: estimate.distribution,
+          feeValue: estimate.feeValue,
+        },
       });
 
     const hash =

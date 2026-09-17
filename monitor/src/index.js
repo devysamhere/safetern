@@ -4,7 +4,7 @@ import http from "node:http";
 import { fileURLToPath } from "node:url";
 import { createAccount, createClient } from "genlayer-js";
 import { verifyMessage } from "ethers";
-import { studionet } from "genlayer-js/chains";
+import { studioDevnet } from "genlayer-js/chains";
 import { TelegramGuardian } from "./guardian.js";
 import { SafeternDemoWallets } from "./demo.js";
 
@@ -54,9 +54,8 @@ const DEMO_POOL = Array.from({ length: 5 }, (_, index) => {
 });
 const FINALIZE_PENDING_RETRY_SECONDS = Math.max(900, Number(process.env.FINALIZE_PENDING_RETRY_SECONDS || 7200));
 
-const readClient = createClient({ chain: studionet });
-// Studionet's public RPC is capped at 30 requests/minute. Keep monitor reads
-// below that ceiling and leave headroom for the frontend/keeper.
+const readClient = createClient({ chain: studioDevnet });
+// Throttle Guardian reads to avoid overwhelming the hosted Studio Dev RPC.
 const RPC_READ_INTERVAL_MS = Math.max(2200, Number(process.env.RPC_READ_INTERVAL_MS || 2600));
 let lastRpcReadAt = 0;
 let rpcReadQueue = Promise.resolve();
@@ -76,11 +75,19 @@ function readContractThrottled(request) {
   return task;
 }
 
+async function writeWithEstimatedFees(client, request) {
+  const estimate = await client.estimateTransactionFeesForWrite(request);
+  return client.writeContract({
+    ...request,
+    fees: { distribution: estimate.distribution, messageAllocations: estimate.messageAllocations, feeValue: estimate.feeValue },
+  });
+}
+
 let keeperClient = null;
 if (AUTO_ASSESS && KEEPER_KEY) {
   try {
     const account = createAccount(KEEPER_KEY);
-    keeperClient = createClient({ chain: studionet, account });
+    keeperClient = createClient({ chain: studioDevnet, account });
   } catch (error) {
     console.error("Could not initialize keeper account:", error?.message || error);
   }
@@ -369,11 +376,10 @@ async function maybeAssess(row, reasons, state) {
   if (!reasons.length || !AUTO_ASSESS || !keeperClient) return null;
 
   try {
-    const tx = await keeperClient.writeContract({
+    const tx = await writeWithEstimatedFees(keeperClient, {
       address: CONTRACT,
       functionName: "assess",
-      args: [Number(row.id)],
-      value: 0n
+      args: [Number(row.id)]
     });
 
     const hash =
@@ -407,11 +413,10 @@ async function maybeFinalizeRecovery(row, state) {
   if (!AUTO_FINALIZE || !keeperClient) return null;
 
   try {
-    const tx = await keeperClient.writeContract({
+    const tx = await writeWithEstimatedFees(keeperClient, {
       address: CONTRACT,
       functionName: "finalize_recovery",
-      args: [Number(row.id)],
-      value: 0n
+      args: [Number(row.id)]
     });
 
     const hash =
