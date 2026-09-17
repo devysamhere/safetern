@@ -1,7 +1,7 @@
 # Safetern — Current Project Status
 
 **Current Build:** 06.5
-**Network:** GenLayer Studionet  
+**Network:** GenLayer Studio Next (Chain ID 61997)  
 **Status:** Production hackathon build operational  
 **Track:** Autonomous Protocols
 
@@ -18,13 +18,13 @@
 
 **Contract:**
 
-`0x2c43B5282af2Fc73bdef578E82EeAA78BB5346DB`
+`0x50C3c34eB95Cc0a5446d86f4Dc3473C4dAE0D331`
 
-**Deployment transaction:**
+**Explorer:**
 
-`0x40a1530e5e5a45f41efe64151f3b1ad2be9cce8d7a6a25bcf60c4649e1f60cdf`
+`https://explorer-studio-dev.genlayer.com/address/0x50C3c34eB95Cc0a5446d86f4Dc3473C4dAE0D331`
 
-Build 06.5 does not require an Intelligent Contract redeployment.
+Safetern is deployed and configured on GenLayer Studio Next (Chain ID 61997).
 
 ---
 
@@ -74,7 +74,7 @@ The interface intentionally blocks full wallet seed phrases and raw private keys
 
 Operational in production at `https://safetern.xyz`.
 
-The embedded demo provides an isolated funded GenLayer Studionet Owner/Beneficiary pair without exposing private keys to the browser or requiring MetaMask.
+The embedded demo provides an isolated funded GenLayer Studio Next (Chain ID 61997) Owner/Beneficiary pair without exposing private keys to the browser or requiring MetaMask.
 
 Verified Build 06.5 behavior includes:
 

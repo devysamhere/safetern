@@ -117,7 +117,7 @@ export class SafeternDemoWallets {
   info(pair = null) {
     const base = {
       enabled: this.enabled,
-      network: "GenLayer Studionet",
+      network: "GenLayer Studio Next (61997)",
       expires_minutes: 45,
       pool_size: this.walletPool.length,
     };

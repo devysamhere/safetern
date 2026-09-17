@@ -66,7 +66,7 @@ https://github.com/devysamhere/safetern
 
 
 
-GenLayer Studionet
+GenLayer Studio Next (Chain ID 61997)
 
 
 
@@ -74,7 +74,7 @@ GenLayer Studionet
 
 
 
-`0x2c43B5282af2Fc73bdef578E82EeAA78BB5346DB`
+`0x50C3c34eB95Cc0a5446d86f4Dc3473C4dAE0D331`
 
 
 
@@ -90,7 +90,7 @@ GenLayer Studionet
 
 
 
-`0x40a1530e5e5a45f41efe64151f3b1ad2be9cce8d7a6a25bcf60c4649e1f60cdf`
+`https://explorer-studio-dev.genlayer.com/address/0x50C3c34eB95Cc0a5446d86f4Dc3473C4dAE0D331`
 
 
 
@@ -118,7 +118,7 @@ https://guardian.safetern.xyz
 
 
 
-Safetern has been tested successfully on GenLayer Studionet.
+Safetern has been tested successfully on GenLayer Studio Next (Chain ID 61997).
 
 
 
@@ -310,7 +310,7 @@ Actions that modify Intelligent Contract state are presented as blockchain trans
 
 If MetaMask displays the warning while reviewing Safetern, please do not disable wallet security protections solely to access the project.
 
-Build 06.5 also provides an **Embedded Demo** that does not require MetaMask. Reviewers can use it to create and inspect real Protect, Watch, and Recover records on GenLayer Studionet while demo keys remain server-side.
+Build 06.5 also provides an **Embedded Demo** that does not require MetaMask. Reviewers can use it to create and inspect real Protect, Watch, and Recover records on GenLayer Studio Next (Chain ID 61997) while demo keys remain server-side.
 
 
 
@@ -326,7 +326,7 @@ The deployed Intelligent Contract can be verified using:
 
 
 
-`0x2c43B5282af2Fc73bdef578E82EeAA78BB5346DB`
+`0x50C3c34eB95Cc0a5446d86f4Dc3473C4dAE0D331`
 
 
 

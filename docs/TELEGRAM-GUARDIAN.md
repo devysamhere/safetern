@@ -718,7 +718,7 @@ Infrastructure includes:
 
 \- Telegram Bot API
 
-\- GenLayer Studionet
+\- GenLayer Studio Next (Chain ID 61997)
 
 
 

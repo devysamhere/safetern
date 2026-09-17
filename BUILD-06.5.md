@@ -9,18 +9,18 @@ It adds a real, judge-focused embedded demo while preserving the deployed Safete
 - Website: https://safetern.xyz
 - Guardian API: https://guardian.safetern.xyz
 - Telegram Guardian: `@SafeternGuardianBot`
-- Network: GenLayer Studionet
-- Intelligent Contract: `0x2c43B5282af2Fc73bdef578E82EeAA78BB5346DB`
+- Network: GenLayer Studio Next (Chain ID 61997)
+- Intelligent Contract: `0x50C3c34eB95Cc0a5446d86f4Dc3473C4dAE0D331`
 - Contract version: `v0.3.2`
-- Deployment transaction: `0x40a1530e5e5a45f41efe64151f3b1ad2be9cce8d7a6a25bcf60c4649e1f60cdf`
+- Explorer: https://explorer-studio-dev.genlayer.com/address/0x50C3c34eB95Cc0a5446d86f4Dc3473C4dAE0D331
 
-No Intelligent Contract redeployment was required for Build 06.5.
+Safetern is deployed and configured on GenLayer Studio Next (Chain ID 61997).
 
 ## What changed
 
 ### Embedded Demo
 
-Build 06.5 provides a production embedded demo that lets reviewers exercise Safetern without MetaMask or their own funded Studionet wallet.
+Build 06.5 provides a production embedded demo that lets reviewers exercise Safetern without MetaMask or their own funded Studio Next wallet.
 
 The demo uses:
 
@@ -35,7 +35,7 @@ The demo uses:
 
 Demo-created record names are prefixed with `Demo ·`.
 
-The demo is not a fake UI simulation. Supported actions interact with the deployed Safetern Intelligent Contract on GenLayer Studionet.
+The demo is not a fake UI simulation. Supported actions interact with the deployed Safetern Intelligent Contract on GenLayer Studio Next (Chain ID 61997).
 
 ### Persistent demo sessions
 
