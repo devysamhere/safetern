@@ -10,7 +10,8 @@
     "guardian:test": "node src/telegram-test.js"
   },
   "dependencies": {
-    "ethers": "^6.15.0",
-    "genlayer-js": "2.0.0-rc.1"
+    "genlayer-js": "2.0.0-rc.1",
+    "@genlayer/transaction-kit": "0.1.0-rc.2",
+    "ethers": "^6.15.0"
   }
 }

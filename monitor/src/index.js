@@ -55,7 +55,7 @@ const DEMO_POOL = Array.from({ length: 5 }, (_, index) => {
 const FINALIZE_PENDING_RETRY_SECONDS = Math.max(900, Number(process.env.FINALIZE_PENDING_RETRY_SECONDS || 7200));
 
 const readClient = createClient({ chain: studioDevnet });
-// Keep monitor reads serialized and rate-limited so Guardian does not overload Studio Next.
+// Throttle Guardian reads to avoid overwhelming the hosted Studio Dev RPC.
 const RPC_READ_INTERVAL_MS = Math.max(2200, Number(process.env.RPC_READ_INTERVAL_MS || 2600));
 let lastRpcReadAt = 0;
 let rpcReadQueue = Promise.resolve();
@@ -73,6 +73,14 @@ function readContractThrottled(request) {
   const task = rpcReadQueue.then(run, run);
   rpcReadQueue = task.catch(() => {});
   return task;
+}
+
+async function writeWithEstimatedFees(client, request) {
+  const estimate = await client.estimateTransactionFeesForWrite(request);
+  return client.writeContract({
+    ...request,
+    fees: { distribution: estimate.distribution, messageAllocations: estimate.messageAllocations, feeValue: estimate.feeValue },
+  });
 }
 
 let keeperClient = null;
@@ -364,26 +372,14 @@ async function readContinuityRows() {
   return rows;
 }
 
-async function keeperWrite(request) {
-  const estimate = await keeperClient.estimateTransactionFeesForWrite(request);
-  return keeperClient.writeContract({
-    ...request,
-    fees: {
-      distribution: estimate.distribution,
-      feeValue: estimate.feeValue,
-    },
-  });
-}
-
 async function maybeAssess(row, reasons, state) {
   if (!reasons.length || !AUTO_ASSESS || !keeperClient) return null;
 
   try {
-    const tx = await keeperWrite({
+    const tx = await writeWithEstimatedFees(keeperClient, {
       address: CONTRACT,
       functionName: "assess",
-      args: [Number(row.id)],
-      value: 0n
+      args: [Number(row.id)]
     });
 
     const hash =
@@ -417,11 +413,10 @@ async function maybeFinalizeRecovery(row, state) {
   if (!AUTO_FINALIZE || !keeperClient) return null;
 
   try {
-    const tx = await keeperWrite({
+    const tx = await writeWithEstimatedFees(keeperClient, {
       address: CONTRACT,
       functionName: "finalize_recovery",
-      args: [Number(row.id)],
-      value: 0n
+      args: [Number(row.id)]
     });
 
     const hash =

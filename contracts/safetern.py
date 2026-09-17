@@ -1,14 +1,14 @@
-# v0.3.2
-# { "Depends": "py-genlayer:15qfivjvy80800rh998pcxmd2m8va1wq2qzqhz850n8ggcr4i9q0" }
+# { "Depends": "py-genlayer:5jycge4q8k23462jtb0b9fyey1s9qz928sz2nbrd9mg4sxqg2qng" }
 
 import genlayer as gl
 from genlayer import *
 from dataclasses import dataclass
+from genlayer.storage._internal.generate import allow
+from genlayer.storage.tree_map import TreeMap
 import json
 import time
+from datetime import datetime
 
-
-allow_storage = gl.storage.allow_storage
 
 
 # ==================================================
@@ -44,7 +44,7 @@ ALLOWED_ASSESSMENT_STATES = (
 # STORAGE TYPES
 # ==================================================
 
-@allow_storage
+@allow
 @dataclass
 class ContinuityRecord:
     record_id: u256
@@ -69,7 +69,7 @@ class ContinuityRecord:
     created_at_hint: u64
 
 
-@allow_storage
+@allow
 @dataclass
 class AssessmentRecord:
     assessment_id: u256
@@ -83,7 +83,7 @@ class AssessmentRecord:
     assessed_at_hint: u64
 
 
-@allow_storage
+@allow
 @dataclass
 class RecoveryAccessRecord:
     access_id: u256
@@ -93,7 +93,7 @@ class RecoveryAccessRecord:
     claimed_at_hint: u64
 
 
-@allow_storage
+@allow
 @dataclass
 class RecoveryIdentityRecord:
     wallet: str
@@ -107,7 +107,7 @@ class RecoveryIdentityRecord:
 # CONTRACT
 # ==================================================
 
-class Safetern(gl.Contract):
+class Safetern(gl.contract.Contract):
 
     records: TreeMap[str, ContinuityRecord]
     assessments: TreeMap[str, AssessmentRecord]
@@ -137,12 +137,12 @@ class Safetern(gl.Contract):
 
     def _require_record(self, record_id: int) -> ContinuityRecord:
         if record_id <= 0:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "record_id must be greater than zero"
             )
 
         if record_id > int(self.record_counter):
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "continuity record does not exist"
             )
 
@@ -152,30 +152,30 @@ class Safetern(gl.Contract):
         text = str(evidence_sources_json).strip()
 
         if text == "":
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "at least one evidence source is required"
             )
 
         try:
             sources = json.loads(text)
         except Exception:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "evidence_sources_json must be valid JSON"
             )
             return "[]"
 
         if not isinstance(sources, list):
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "evidence_sources_json must contain a JSON array"
             )
 
         if len(sources) == 0:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "at least one evidence source is required"
             )
 
         if len(sources) > MAX_EVIDENCE_SOURCES:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "a maximum of five evidence sources is supported"
             )
 
@@ -185,7 +185,7 @@ class Safetern(gl.Contract):
             url = str(source).strip()
 
             if url == "":
-                gl.advanced.rollback_immediate(
+                raise gl.vm.UserError(
                     "evidence source cannot be empty"
                 )
 
@@ -193,7 +193,7 @@ class Safetern(gl.Contract):
                 url.startswith("https://")
                 or url.startswith("http://")
             ):
-                gl.advanced.rollback_immediate(
+                raise gl.vm.UserError(
                     "evidence sources must use http or https"
                 )
 
@@ -209,19 +209,19 @@ class Safetern(gl.Contract):
         try:
             metadata = json.loads(text)
         except Exception:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "watch_metadata_json must be valid JSON"
             )
             return "{}"
 
         if not isinstance(metadata, dict):
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "watch_metadata_json must contain a JSON object"
             )
 
         watch_type = str(metadata.get("watch_type", "PROJECT")).strip().upper()
         if watch_type not in ("PROJECT", "CRYPTO_TOKEN"):
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "unsupported watch_type"
             )
 
@@ -238,15 +238,15 @@ class Safetern(gl.Contract):
 
         if watch_type == "CRYPTO_TOKEN":
             if normalized["token_symbol"] == "":
-                gl.advanced.rollback_immediate(
+                raise gl.vm.UserError(
                     "token_symbol is required for crypto token watches"
                 )
             if normalized["blockchain"] == "":
-                gl.advanced.rollback_immediate(
+                raise gl.vm.UserError(
                     "blockchain is required for crypto token watches"
                 )
             if normalized["contract_address"] == "":
-                gl.advanced.rollback_immediate(
+                raise gl.vm.UserError(
                     "contract_address is required for crypto token watches"
                 )
 
@@ -291,17 +291,17 @@ class Safetern(gl.Contract):
             MODE_RECOVER,
             MODE_WATCH,
         ):
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "unsupported Safetern mode"
             )
 
         if name_text == "":
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "name is required"
             )
 
         if rule_text == "":
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "continuity rule is required"
             )
 
@@ -313,39 +313,39 @@ class Safetern(gl.Contract):
         )
 
         if challenge_period_seconds < 0:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "challenge period cannot be negative"
             )
 
         if challenge_period_seconds > MAX_CHALLENGE_SECONDS:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "challenge period cannot exceed 365 days"
             )
 
         if created_at_hint < 0:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "created_at_hint cannot be negative"
             )
 
         if mode_text == MODE_PROTECT:
             if recovery_text == "":
-                gl.advanced.rollback_immediate(
+                raise gl.vm.UserError(
                     "recovery controller is required for Protect"
                 )
 
         if mode_text == MODE_RECOVER:
             if beneficiary_text == "":
-                gl.advanced.rollback_immediate(
+                raise gl.vm.UserError(
                     "beneficiary wallet is required for Recover"
                 )
 
             if payload_ref_text == "":
-                gl.advanced.rollback_immediate(
+                raise gl.vm.UserError(
                     "encrypted payload reference is required for Recover"
                 )
 
             if payload_hash_text == "":
-                gl.advanced.rollback_immediate(
+                raise gl.vm.UserError(
                     "encrypted payload hash is required for Recover"
                 )
 
@@ -473,11 +473,11 @@ class Safetern(gl.Contract):
         created_at_hint: int,
     ) -> int:
         if monitoring_interval_seconds < 900:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "watch monitoring interval must be at least 15 minutes"
             )
         if monitoring_interval_seconds > 2592000:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "watch monitoring interval cannot exceed 30 days"
             )
 
@@ -575,12 +575,12 @@ class Safetern(gl.Contract):
         caller = str(gl.message.sender_address)
 
         if caller.lower() != record.owner.lower():
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "only the record owner can update this record"
             )
 
         if record.state == STATE_RECOVERED:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "recovered records cannot be changed"
             )
 
@@ -603,15 +603,15 @@ class Safetern(gl.Contract):
         fingerprint_text = str(fingerprint).strip()
 
         if code_text == "":
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "public recovery key code is required"
             )
         if fingerprint_text == "":
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "recovery key fingerprint is required"
             )
         if registered_at_hint < 0:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "registered_at_hint cannot be negative"
             )
 
@@ -631,7 +631,7 @@ class Safetern(gl.Contract):
         key = wallet.lower()
         present = self.recovery_identity_present.get(key, False)
         if not present:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "recovery identity is not registered"
             )
         item = self.recovery_identities[key]
@@ -672,15 +672,15 @@ class Safetern(gl.Contract):
         record = self._require_record(record_id)
         caller = str(gl.message.sender_address)
         if caller.lower() != record.owner.lower():
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "only the record owner can update monitoring cadence"
             )
         if interval_seconds < 3600:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "monitoring interval must be at least one hour"
             )
         if interval_seconds > MAX_CHALLENGE_SECONDS:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "monitoring interval cannot exceed 365 days"
             )
         self.monitoring_interval[str(record_id)] = u64(interval_seconds)
@@ -710,19 +710,19 @@ class Safetern(gl.Contract):
         record = self._require_record(record_id)
 
         if not record.active:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "continuity record is not active"
             )
 
         if record.state == STATE_RECOVERED:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "recovered records cannot be assessed"
             )
 
         # Do not allow a new assessment to silently replace an active
         # recovery challenge. The owner must cancel or it must finalize.
         if record.state == STATE_CHALLENGE:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "recovery challenge is already active"
             )
 
@@ -760,7 +760,7 @@ class Safetern(gl.Contract):
         try:
             source_urls = json.loads(sources_json_text)
         except Exception:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "stored evidence sources are invalid"
             )
             return 0
@@ -780,7 +780,7 @@ class Safetern(gl.Contract):
                 url = source_urls_for_eval[index]
 
                 try:
-                    webpage = gl.get_webpage(url)
+                    webpage = gl.nondet.web.get(url).body.decode("utf-8")
                     content = str(webpage)
 
                     source_results.append({
@@ -882,7 +882,7 @@ class Safetern(gl.Contract):
                     + token_address
                 )
                 try:
-                    dex_raw = str(gl.get_webpage(dex_url))
+                    dex_raw = str(gl.nondet.web.get(dex_url).body.decode("utf-8"))
                     dex_data = json.loads(dex_raw)
                     if not isinstance(dex_data, list):
                         dex_data = []
@@ -993,7 +993,7 @@ class Safetern(gl.Contract):
                     ):
                         continue
                     try:
-                        exchange_page = str(gl.get_webpage(exchange_url))
+                        exchange_page = str(gl.nondet.web.get(exchange_url).body.decode("utf-8"))
                         # Keep a bounded evidence slice. The model still gets
                         # enough current announcement text to identify the
                         # watched symbol without bloating the prompt.
@@ -1029,7 +1029,7 @@ class Safetern(gl.Contract):
                         )
                         try:
                             coinbase_page = str(
-                                gl.get_webpage(coinbase_url)
+                                gl.nondet.web.get(coinbase_url).body.decode("utf-8")
                             )
                             if len(coinbase_page) > 3000:
                                 coinbase_page = coinbase_page[:3000]
@@ -1186,7 +1186,7 @@ Return ONLY valid JSON with exactly these keys:
 """
 
             try:
-                raw_result = gl.exec_prompt(prompt)
+                raw_result = gl.nondet.exec_prompt(prompt)
             except Exception as exc:
                 return {
                     "status": "ERROR",
@@ -1329,13 +1329,13 @@ Return ONLY valid JSON with exactly these keys:
         def validator_fn(leader_result) -> bool:
             if not isinstance(
                 leader_result,
-                gl.advanced.ContractReturn,
+                gl.vm.Return,
             ):
                 return False
 
             try:
                 validator_result = evaluate()
-                leader = leader_result.data
+                leader = leader_result.calldata
 
                 if not isinstance(leader, dict):
                     return False
@@ -1405,18 +1405,18 @@ Return ONLY valid JSON with exactly these keys:
             except Exception:
                 return False
 
-        result = gl.advanced.run_nondet(
+        result = gl.vm.run_nondet_default(
             evaluate,
             validator_fn,
-        ).get()
+        )
 
         if not isinstance(result, dict):
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "consensus assessment returned invalid result"
             )
 
         if str(result.get("status", "ERROR")) != "OK":
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "continuity assessment unavailable; please retry"
             )
 
@@ -1496,12 +1496,12 @@ Return ONLY valid JSON with exactly these keys:
     @gl.public.view
     def get_assessment(self, assessment_id: int) -> dict:
         if assessment_id <= 0:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "assessment_id must be greater than zero"
             )
 
         if assessment_id > int(self.assessment_counter):
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "assessment does not exist"
             )
 
@@ -1567,12 +1567,12 @@ Return ONLY valid JSON with exactly these keys:
         caller = str(gl.message.sender_address)
 
         if caller.lower() != record.owner.lower():
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "only the record owner can confirm presence"
             )
 
         if record.state != STATE_CHALLENGE:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "no recovery challenge is active"
             )
 
@@ -1591,19 +1591,19 @@ Return ONLY valid JSON with exactly these keys:
         record = self._require_record(record_id)
 
         if record.mode == MODE_WATCH:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "Watch records cannot recover"
             )
 
         if record.state != STATE_CHALLENGE:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "recovery challenge is not active"
             )
 
-        now_time = int(time.time())
+        now_time = int(datetime.fromisoformat(str(gl.message_raw["datetime"]).replace("Z", "+00:00")).timestamp())
 
         if now_time < int(record.challenge_expires_at):
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "recovery challenge period has not expired"
             )
 
@@ -1622,19 +1622,19 @@ Return ONLY valid JSON with exactly these keys:
         record = self._require_record(record_id)
 
         if record.mode != MODE_RECOVER:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "record does not contain a recovery payload"
             )
 
         if record.state != STATE_RECOVERED:
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "recovery is not finalized"
             )
 
         caller = str(gl.message.sender_address).strip()
 
         if caller.lower() != record.beneficiary.lower():
-            gl.advanced.rollback_immediate(
+            raise gl.vm.UserError(
                 "only the nominated beneficiary wallet can claim recovery access"
             )
 
@@ -1646,7 +1646,7 @@ Return ONLY valid JSON with exactly these keys:
         if int(existing_id) != 0:
             return int(existing_id)
 
-        claim_time = int(time.time())
+        claim_time = int(datetime.fromisoformat(str(gl.message_raw["datetime"]).replace("Z", "+00:00")).timestamp())
 
         self.access_counter += u256(1)
         access_id = self.access_counter
@@ -1701,4 +1701,4 @@ Return ONLY valid JSON with exactly these keys:
         if record.state != STATE_CHALLENGE:
             return False
 
-        return int(time.time()) >= int(record.challenge_expires_at)
+        return int(datetime.fromisoformat(str(gl.message_raw["datetime"]).replace("Z", "+00:00")).timestamp()) >= int(record.challenge_expires_at)
