@@ -33,7 +33,10 @@ Traditional inactivity systems rely primarily on timers. Safetern uses **GenLaye
 
 - **GitHub:** https://github.com/devysamhere/safetern
 
-- **Network:** GenLayer Studionet
+- **Network:** GenLayer Studio Next (Chain ID 61997)
+- **Contract:** `0x50C3c34eB95Cc0a5446d86f4Dc3473C4dAE0D331`
+- **Explorer:** https://explorer-studio-dev.genlayer.com/address/0x50C3c34eB95Cc0a5446d86f4Dc3473C4dAE0D331
+- **Demo video:** https://youtu.be/W_wS2W0uNko
 
 - **Hackathon Track:** Autonomous Protocols
 
@@ -59,7 +62,7 @@ Guardian can monitor, notify, gather evidence, and submit permissionless protoco
 **Current contract:**
 
 
-`0x2c43B5282af2Fc73bdef578E82EeAA78BB5346DB`
+`0x50C3c34eB95Cc0a5446d86f4Dc3473C4dAE0D331`
 
 
 **Contract version:**
@@ -68,13 +71,7 @@ Guardian can monitor, notify, gather evidence, and submit permissionless protoco
 `v0.3.2`
 
 
-**Deployment transaction:**
-
-
-`0x40a1530e5e5a45f41efe64151f3b1ad2be9cce8d7a6a25bcf60c4649e1f60cdf`
-
-
-Build 06.5 does not require a contract redeployment.
+Safetern has been redeployed and configured on GenLayer Studio Next (Chain ID 61997).
 
 
 ---
@@ -630,7 +627,7 @@ The production deployment has been verified with:
 # Proven End-to-End Flows
 
 
-Safetern has been tested end-to-end on GenLayer Studionet.
+Safetern has been tested end-to-end on GenLayer Studio Next (Chain ID 61997).
 
 
 These are not merely proposed flows; the major lifecycle paths have been executed during development and production testing.
@@ -901,7 +898,7 @@ Accelerated challenge periods are also available for testing and demonstrations 
 # RPC and Monitoring Resilience
 
 
-Safetern Guardian includes RPC-throttling and lifecycle monitoring designed for GenLayer Studionet.
+Safetern Guardian includes RPC-throttling and lifecycle monitoring configured for GenLayer Studio Next (Chain ID 61997).
 
 
 Heavy monitoring can run at a slower cadence while lightweight lifecycle checks run more frequently for records with:
@@ -1200,7 +1197,7 @@ It includes:
 - session, role, Guardian-state, and active-tab persistence across refreshes
 - record-loading UX across Home, Protect, Watch, and Recover
 
-No Intelligent Contract redeployment was required for Build 06.5.
+The current hackathon deployment runs on GenLayer Studio Next (Chain ID 61997).
 
 See:
 
@@ -1221,7 +1218,7 @@ Open:
 
 https://safetern.xyz
 
-Start the **Embedded Demo**. Safetern assigns the browser session an isolated funded GenLayer Studionet Owner/Beneficiary pair. The demo uses the real deployed Safetern Intelligent Contract; it is not a simulated UI.
+Start the **Embedded Demo**. Safetern assigns the browser session an isolated funded GenLayer Studio Next Owner/Beneficiary pair. The demo uses the real deployed Safetern Intelligent Contract; it is not a simulated UI.
 
 ## Recommended reviewer test
 
@@ -1285,10 +1282,10 @@ The protocol uses intelligent consensus to determine **whether an action is just
 **Build:** 06.5
 
 
-**Network:** GenLayer Studionet
+**Network:** GenLayer Studio Next (Chain ID 61997)
 
 
-**Contract:** `0x2c43B5282af2Fc73bdef578E82EeAA78BB5346DB`
+**Contract:** `0x50C3c34eB95Cc0a5446d86f4Dc3473C4dAE0D331`
 
 
 **Frontend:** https://safetern.xyz
